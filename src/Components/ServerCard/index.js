@@ -4,8 +4,7 @@ import { Card, Button } from "antd";
 import Context from "Data/Context";
 import { FaServer, FaMicrochip, FaMemory, FaHdd, FaFan, FaPowerOff, FaNetworkWired, FaThermometerHalf } from 'react-icons/fa';
 import { useSelector, useDispatch } from "react-redux";
-import { fetchStart } from '../../appRedux/features/common/commonSlice';
-
+import { fetchStart as callAPIFetchStart } from '../../util/CallAPI';
 
 
 const stylesCardFn = info => {
@@ -67,17 +66,14 @@ const ServerCard = ({ Server_Id, MaServer, title }) => {
         (state) => state.common
     );
     useEffect(() => {
-        dispatch(
-            fetchStart({
-                key: 'serverInfo',
-                url: "/api/StatusModule/GetbyServerId",
-                method: "GET",
-                params: {
-                    serverId: Server_Id
-                },
-            })
-        );
-    }, [dispatch]);
+
+        callAPIFetchStart("/Api/StatusModule/GetbyServerId", "GET", null, { serverId: Server_Id })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("API response for server info:", response.data);
+                }
+            });
+    }, [Server_Id]);
 
 
 

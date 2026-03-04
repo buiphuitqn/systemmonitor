@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../../services/axiosClient";
-import { data } from "react-router-dom";
 
 /*
    Generic API Thunk
