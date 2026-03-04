@@ -1,102 +1,113 @@
-import { Col, Form, Input, Select, Popconfirm, notification, Button, message } from "antd";
-import { EditOutlined, SaveOutlined, SettingOutlined } from "@ant-design/icons";
-import banner from "../../assets/images/logo.png";
+import { Form, Input, Select, Button } from "antd";
 import React, { useEffect, useState } from "react";
-import Context from "../../Data/Context";
 import "./SignIn.css";
 import { useNavigate } from "react-router-dom";
-import {
-  UserOutlined,
-  InfoCircleOutlined,
-  KeyOutlined,
-  EyeTwoTone,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { loginUser } from '../../appRedux/actions/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCookieValue } from '../../util/Commons'
 
 const { Option } = Select;
 
-
-const SignIn = () => {
+const SignIn = ({ history }) => {
+  const { loader } = useSelector(state => state.auth);
   const [form] = Form.useForm();
   const [domain, setDomain] = useState("thaco.com.vn");
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     console.log("SignIn component mounted");
-    document.title = "Đăng nhập - Phần mềm quản lý xe";
+    document.title = "Đăng nhập - THACO MONITOR";
   }, []);
+  
+  useEffect(() => {
+    const token = getCookieValue('tokenInfo');
+    if (token) {
+      window.location.href = '/';
+    }
+  }, [history]);
+  
   const onFinish = (value) => {
-    console.log("Form values:", value,domain);
+    dispatch(loginUser({ ...value, domain, history }));
   }
+  
   return (
-    <div className="login-page">
-      <button className="btnsetting"><SettingOutlined style={{ fontSize: 20 }} /></button>
-      <div className="login-box">
-        <Form
-          name="login-form"
-          form={form}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
-          <div className="Imgtitle card-title">
-            <img src={banner} />
-          </div>
-          <div className="loginimage">
-            <p className="form-title">PHẦN MỀM QUẢN LÝ XE</p>
-            <p style={{ color: '#fff' }}>Đăng nhập ứng dụng</p>
-          </div>
+    <div className="signin-container">
+      <div className="signin-content">
+        <div className="signin-header">
+          <h1 className="signin-logo">THACO SYSTEM MONITOR</h1>
+        </div>
 
-          <div className="form-group">
-            <label className="form-label">Tài khoản</label>
-            <Form.Item
-              initialValue=""
-              rules={[{ required: true, message: "Vui lòng nhập tài khoản" }]}
-              name="username"
-            >
-              <div className="input-with-addon">
-                <Input
-                  placeholder="Nhập tên đăng nhập"
-                  type="text"
-                  className="addon-input"
-                  maxLength={50}
-                />
-                <Select
-                  value={domain}
-                  onChange={(e) => setDomain(e)}
-                  className="addon-select"
+        <div className="signin-card">
+          <Form
+            name="login-form"
+            form={form}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            layout="vertical"
+          >
+            {/* Tài khoản */}
+            <div className="form-group">
+              <label className="form-label">Tài khoản</label>
+              <Form.Item
+                initialValue=""
+                rules={[{ required: true, message: "Vui lòng nhập tài khoản" }]}
+                name="username"
+                className="form-item-no-margin"
+              >
+                <div className="input-with-addon">
+                  <Input
+                    placeholder="Tài khoản"
+                    type="text"
+                    className="addon-input"
+                    maxLength={50}
+                    bordered={false}
+                  />
+                  <Select
+                    value={domain}
+                    onChange={(e) => setDomain(e)}
+                    className="addon-select"
+                    bordered={false}
+                  >
+                    <Option value="thaco.com.vn">@thaco.com.vn</Option>
+                  </Select>
+                </div>
+              </Form.Item>
+            </div>
+
+            {/* Mật khẩu */}
+            <div className="form-group">
+              <label className="form-label">Mật khẩu</label>
+              <Form.Item
+                initialValue=""
+                rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+                name="password"
+                className="form-item-no-margin"
+              >
+                <Input.Password
+                  placeholder="Mật khẩu"
+                  className="form-input-standard"
+                  maxLength={100}
                   bordered={false}
+                />
+              </Form.Item>
+            </div>
+
+            {/* Button Group */}
+            <div className="form-actions">
+              <Form.Item style={{ marginBottom: 0 }}>
+                <Button
+                  type="primary"
+                  className="signin-button"
+                  htmlType="submit"
+                  loading={loader}
+                  block
                 >
-                  <Option value="">Tài khoản</Option>
-                  <Option value="thaco.com.vn">@thaco.com.vn</Option>
-                </Select>
-              </div>
-            </Form.Item>
-          </div>
-
-          {/* Password Input */}
-          <div className="form-group">
-            <label className="form-label">Mật khẩu</label>
-            <Form.Item
-              initialValue=""
-              rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
-              name="password"
-            >
-              <Input.Password
-                placeholder="Nhập mật khẩu"
-                className="form-input-standard"
-                maxLength={100}
-              />
-            </Form.Item>
-          </div>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              className="login-form-button"
-              htmlType="submit"
-            >
-              Đăng nhập
-            </Button>
-          </Form.Item>
-        </Form>
+                  Đăng nhập
+                </Button>
+              </Form.Item>
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
   );

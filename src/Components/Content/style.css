@@ -1,0 +1,336 @@
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 0;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-bottom: 2px solid #e0e0e0;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-icon {
+    color: #667eea;
+    font-size: 14px;
+}
+
+.filter-input {
+    padding: 8px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    background-color: #fff;
+    color: #333;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: scale(1.02);
+}
+
+.filter-input::placeholder {
+    color: #999;
+}
+
+.clear-button {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clear-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+.clear-button:active {
+    transform: translateY(0);
+}
+
+.result-count {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+    margin-left: auto;
+    white-space: nowrap;
+    background-color: rgba(102, 126, 234, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #667eea;
+}
+
+.result-count strong {
+    color: #667eea;
+    font-weight: 700;
+}
+
+.table-container {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 15px;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #333;
+}
+
+.table-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.header-cell {
+    padding: 16px 12px;
+    text-align: center;
+    border-bottom: 2px solid #667eea;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.header-cell:last-child {
+    border-right: none;
+}
+
+.table-row {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.table-row:hover {
+    background-color: #f8f9ff;
+    transform: scale(1.01);
+    box-shadow: inset 0 0 10px rgba(102, 126, 234, 0.1);
+}
+
+.table-cell {
+    padding: 14px 12px;
+    vertical-align: middle;
+    border-right: 1px solid #f0f0f0;
+}
+
+.table-cell:last-child {
+    border-right: none;
+}
+
+.level-cell {
+    text-align: center;
+    width: 100px;
+}
+
+.message-cell {
+    max-width: 400px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.level-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.level-info {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
+}
+
+.level-info:hover {
+    background-color: #bbdefb;
+    transform: scale(1.05);
+}
+
+.level-warning {
+    background-color: #fff3e0;
+    color: #f57c00;
+    border: 1px solid #ffb74d;
+}
+
+.level-warning:hover {
+    background-color: #ffe0b2;
+    transform: scale(1.05);
+}
+
+.level-error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ef5350;
+}
+
+.level-error:hover {
+    background-color: #ffcdd2;
+    transform: scale(1.05);
+}
+
+.level-download {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ef5350;
+}
+
+.level-download:hover {
+    background-color: #ffcdd2;
+    transform: scale(1.05);
+}
+
+.level-upload {
+    background-color: #e8f5e9;
+    color: #388e3c;
+    border: 1px solid #66bb6a;
+}
+
+.level-upload:hover {
+    background-color: #c8e6c9;
+    transform: scale(1.05);
+}
+
+.empty-row {
+    height: 200px;
+}
+
+.empty-message {
+    text-align: center;
+    vertical-align: middle;
+    color: #999;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Scrollbar styling */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.car-gird {
+    padding: 5px !important;
+    box-shadow: none !important;
+}
+.card-title{
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+.card-title-main {
+    display: flex;
+    align-items: center;
+}
+.card-title-main p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #00529C;
+    margin: 10px;
+}
+.ant-table {
+  background: #0f1b2b;
+  color: #d1d5db;
+}
+
+.ant-table-thead > tr > th {
+  background: #162336 !important;
+  color: #9ca3af !important;
+  font-weight: 600;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #1f2a3a;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #1b2a40 !important;
+}
+
+@media screen and (min-width: 1420px){
+    .car-gird{
+        width: 20% !important;
+    }
+}
+@media screen and (max-width: 900px){
+    .car-gird{
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .car-gird{
+        width: 100% !important;
+    }
+}

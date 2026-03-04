@@ -11,6 +11,7 @@ import SignIn from './Components/SignIn';
 
 function App() {
   const RestrictedRoute = ({ token, children }) => {
+    console.log("RestrictedRoute token:", token);
     if (!token) {
       return <Navigate to="/signin" replace />;
     }
@@ -26,7 +27,7 @@ function App() {
         <Route
           path="/*"
           element={
-            <RestrictedRoute token={info?.token}>
+            <RestrictedRoute token={info}>
               <MainApp />
             </RestrictedRoute>
           }

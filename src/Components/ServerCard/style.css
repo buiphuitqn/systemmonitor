@@ -1,0 +1,139 @@
+.machine-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  width: 100%;
+  color: #f0f0f0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+  min-height: auto;
+  background-color: #25252a;
+}
+
+.machine-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4fc3f7, #ff9800);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.machine-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.7);
+}
+
+.machine-card:hover::before {
+  opacity: 1;
+}
+
+.machine-card.border-ok { border-color: rgba(102,187,106,0.12); }
+.machine-card.border-warning { border-color: rgba(255,167,38,0.12); }
+.machine-card.border-critical { border-color: rgba(239,83,80,0.12); }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card-server{
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  padding: 12px;
+  margin: 0;
+  width: 100%;
+  color: #f0f0f0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+  min-height: auto;
+  background-color: #25252a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff !important;
+}
+.ant-card-head{
+    min-height: 10px !important;
+}
+
+.server-icon { color: #64b5f6; }
+
+.card-health {
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+}
+.card-health.ok { background: rgba(102,187,106,0.18); color: #66bb6a; }
+.card-health.warning { background: rgba(255,167,38,0.12); color: #ffa726; }
+.card-health.critical { background: rgba(239,83,80,0.12); color: #ef5350; }
+
+.machine-card { min-height: 120px; }
+
+.card-body { display: flex; flex-direction: column; gap: 8px; }
+.card-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.02); }
+.card-row:first-of-type { border-top: none; }
+.row-label { color: #aab; font-weight: 600; }
+.row-val { color: #fff; font-weight: 700; }
+.card-body { display: flex; flex-direction: column; gap: 6px; }
+.card-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.02); }
+.card-row:first-of-type { border-top: none; }
+.row-label { color: #aab; font-weight: 600; font-size: 0.85rem; }
+.row-val { color: #fff; font-weight: 700; font-size: 0.9rem; }
+
+.machine-link { text-decoration: none; display: block; }
+
+.machine-link:hover .machine-card { cursor: pointer; }
+
+/* status list inside the compact card */
+.status-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 8px;
+  margin: 4px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.01);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.status-icon { color: #999; font-size: 0.8rem; }
+
+.label { font-weight: 600; color: #aaa; font-size: 0.55rem; }
+
+.value { font-size: 0.75rem; font-weight: 600; color: #fff; background: rgba(255,255,255,0.03); padding: 1px 4px; border-radius: 3px; }
+.value.low { color: #66bb6a; background: rgba(102,187,106,0.06); }
+.value.medium { color: #ffa726; background: rgba(255,167,38,0.06); }
+.value.high { color: #ef5350; background: rgba(239,83,80,0.06); }
+.value.good { color: #64b5f6; background: rgba(79,195,247,0.06); }
+.value.bad { color: #e57373; background: rgba(229,115,115,0.06); }
+
+.health-badge { margin-left: 4px; padding: 1px 4px; border-radius: 3px; font-size: 0.60rem; font-weight: 700; }
+.health-badge.ok { background-color: rgba(56,142,60,0.18); color: #66bb6a; }
+.health-badge.warning { background-color: rgba(245,124,0,0.12); color: #ffa726; }
+.health-badge.critical { background-color: rgba(211,47,47,0.12); color: #ef5350; }

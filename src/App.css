@@ -58,7 +58,7 @@ p {
   max-width: 400px;
   min-height: 200px;
   width: 100%;
-  padding: 10px 30px;
+  padding: 20px 30px;
 }
 #login-form p {
   margin-bottom: 30px;
@@ -74,14 +74,9 @@ p {
 #login-form .ant-form-item-label > label.ant-form-item-required::before {
   display: none;
 }
-.ant-form-item-control-input-content {
-  text-align: left;
-}
+
 #login-form .ant-input-affix-wrapper {
   padding: 12px 15px;
-}
-#login-form_username {
-  height: 48px;
 }
 #login-form .ant-btn {
   height: 42px;
@@ -347,6 +342,9 @@ p {
   }
   #login-form {
     max-width: 100%;
+  }
+  .logo-image{
+    display: none !important;
   }
 
   .sider-menu {

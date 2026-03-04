@@ -1,0 +1,25 @@
+.table-server-detail{
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    margin: 10px 0 0 0;
+    width: 100%;
+    color: #f0f0f0;
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+@media screen and (min-width: 1420px){
+    .card-server-detail{
+        width: 10% !important;
+    }
+}
+@media screen and (max-width: 900px){
+    .card-server-detail{
+        width: 25% !important;
+    }
+}
+@media screen and (max-width: 600px){
+    .card-server-detail{
+        width: 50% !important;
+    }
+}
