@@ -1,0 +1,9 @@
+.footer-main{
+    background-color: white !important;
+    color: black !important;
+    font-family: 'Tahoma';
+    font-size: 14px;
+    padding-left: 20px;
+    height: 40px;
+    align-items: center;
+}

@@ -14,6 +14,7 @@ export default function () {
   const [loading, setLoading] = React.useState(true);
   const [openModal, setOpenModal] = React.useState(false);
   const [serverInfo, setServerInfo] = React.useState(null);
+  const [collapsed, setCollapsed] = React.useState(false);
     const intialState = {
         login,
         setLogin,
@@ -22,7 +23,8 @@ export default function () {
         loading,
         setLoading,
         openModal, setOpenModal,
-        serverInfo, setServerInfo
+        serverInfo, setServerInfo,
+        collapsed, setCollapsed
     };
     return { intialState };
 }

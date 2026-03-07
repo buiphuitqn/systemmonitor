@@ -6,6 +6,5 @@
       "@components/*": ["Components/*"],
       "@utils/*": ["Utils/*"]
     }
-  },
-  "include": ["src"]
+  }
 }

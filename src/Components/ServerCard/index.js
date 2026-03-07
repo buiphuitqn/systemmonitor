@@ -1,10 +1,10 @@
-import React,{ useEffect } from "react";
+import React, { useEffect } from "react";
 import './style.css';
 import { Card, Button } from "antd";
 import Context from "Data/Context";
 import { FaServer, FaMicrochip, FaMemory, FaHdd, FaFan, FaPowerOff, FaNetworkWired, FaThermometerHalf } from 'react-icons/fa';
 import { useSelector, useDispatch } from "react-redux";
-import { fetchStart as callAPIFetchStart } from '../../util/CallAPI';
+import { fetchStart } from '../../util/CallAPI';
 
 
 const stylesCardFn = info => {
@@ -27,9 +27,8 @@ const stylesCardFn = info => {
     }
 };
 
-const ServerCard = ({ Server_Id, MaServer, title }) => {
+const ServerCard = ({ Server_Id, MaServer, title, status }) => {
     const { setOpenModal, setServerInfo } = React.useContext(Context);
-    const dispatch = useDispatch();
     const iconForLabel = label => {
         const key = label.toLowerCase();
         switch (key) {
@@ -43,39 +42,35 @@ const ServerCard = ({ Server_Id, MaServer, title }) => {
             default: return null;
         }
     };
-    const overallHealth = () => {
-        const healthLevels = { critical: 3, warning: 2, ok: 1 };
-        let max = 0;
-        if (max === 3) return 'critical';
-        if (max === 2) return 'warning';
-        return 'ok';
-    };
-
-    const healthClass = overallHealth();
     const renderStatus = (label, value) => {
+        let _value = value;
+        if(value=="OK") _value = "ok"
+        else if(value=="WARNING") _value = "warning"
+        else if(value=="CRITICAL") _value = "error"
+        else _value = "danger"
         return (
             <div className="status-item" key={label}>
                 {iconForLabel(label)}
                 <span className="label">{label.toUpperCase()}:</span>{' '}
-                <span className={`health-badge ${value.toLowerCase()}`}>{value}</span>
+                <span className={`health-badge ${_value}`}>{value}</span>
             </div>
         );
     };
 
-    const { response: serverInfo, loading } = useSelector(
-        (state) => state.common
-    );
-    useEffect(() => {
+    const checkStatus = (array, value) => {
+        let status = "OK";
 
-        callAPIFetchStart("/Api/StatusModule/GetbyServerId", "GET", null, { serverId: Server_Id })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log("API response for server info:", response.data);
+        for (const item of array) {
+            if (item.moduleName.includes(value)) {
+                if (item.valueMonitor && item.valueMonitor !== 0) {
+                    return item.valueMonitor;
                 }
-            });
-    }, [Server_Id]);
+                status = item.status;
+            }
+        }
 
-
+        return status;
+    };
 
     return (
         <Card
@@ -84,20 +79,19 @@ const ServerCard = ({ Server_Id, MaServer, title }) => {
             }
             extra={<Button type="link" onClick={() => {
                 setOpenModal(true);
-                setServerInfo(title);
+                setServerInfo(Server_Id);
             }}>More</Button>}
             variant="borderless"
-            className="card-server">
+            className={`card-server card-server-${status[0].status == "OK" ? status[0].status.toLowerCase() : "nok"}`}>
             <div className="card-body">
-                {console.log("Render ServerCard with serverInfo:", serverInfo)}
                 <div className="status-list">
-                    {renderStatus('CPU', 'OK')}
-                    {renderStatus('RAM', 'OK')}
-                    {renderStatus('Storage', 'OK')}
-                    {renderStatus('Fan', 'OK')}
-                    {renderStatus('Power', 'OK')}
-                    {renderStatus('Network', 'WARNING')}
-                    {renderStatus('Temp', 'CRITICAL')}
+                    {renderStatus('CPU', checkStatus(status, "Processor"))}
+                    {renderStatus('RAM', checkStatus(status, "Memory"))}
+                    {renderStatus('Storage', checkStatus(status, "Disk"))}
+                    {renderStatus('Fan', checkStatus(status, "Fan"))}
+                    {renderStatus('Power', checkStatus(status, "PWR"))}
+                    {renderStatus('Network', checkStatus(status, "NIC"))}
+                    {renderStatus('Temp', checkStatus(status, "CPU1 Temp"))}
                 </div>
             </div>
         </Card>

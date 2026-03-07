@@ -1,0 +1,24 @@
+.item-status-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+}
+
+.item-status-content {
+    margin-left: 16px;
+}
+.item-status-status {
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;}
+.item-status-card p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 12px;
+}
+.item-status-content span {
+    font-style: italic;
+    font-size: 8px !important;
+}

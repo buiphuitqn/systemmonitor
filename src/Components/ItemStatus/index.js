@@ -1,28 +1,25 @@
 import React from "react";
+import './style.css';
+import { Descriptions } from "antd";
 import { FaMicrochip, FaMemory, FaHdd, FaFan, FaPowerOff, FaNetworkWired, FaThermometerHalf } from 'react-icons/fa';
 
-const ItemStatus = ({ item, status }) => {
+const ItemStatus = ({ item, status, timestamp, valueMonitor }) => {
     const statusClass = status.toLowerCase();
-    const iconForLabel = label => {
-        const key = label.toLowerCase();
-        switch (key) {
-            case 'cpu': return <FaMicrochip className="status-icon" />;
-            case 'ram': return <FaMemory className="status-icon" />;
-            case 'storage': return <FaHdd className="status-icon" />;
-            case 'fan': return <FaFan className="status-icon" />;
-            case 'power': return <FaPowerOff className="status-icon" />;
-            case 'network': return <FaNetworkWired className="status-icon" />;
-            case 'temp': return <FaThermometerHalf className="status-icon" />;
-            default: return null;
-        }
-    };
     return (
-        <div>
-            {iconForLabel(item)}
-            <span className="label">{item.toUpperCase()}:</span>{' '}
-            <span className={`health-badge ${statusClass}`}>
-                {status}
-            </span>
+        <div className="item-status-card">
+            <div className="item-status-content">
+                <p>{item.toUpperCase()}</p>
+                <Descriptions
+                    column={1}
+                    size="small">
+                    <Descriptions.Item label="Status:"><span className={`health-badge ${statusClass}`}>
+                        {status}
+                    </span>
+                        {valueMonitor ? `(Value: ${valueMonitor})` : ''}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="TimeStamp">{timestamp}</Descriptions.Item>
+                </Descriptions>
+            </div>
         </div>
     );
 }

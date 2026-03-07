@@ -53,15 +53,21 @@
   margin: 0;
   width: 100%;
   color: #f0f0f0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
   transition: transform 0.25s, box-shadow 0.25s;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.03);
+  
   min-height: auto;
   background-color: #25252a;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
+
+.card-server-ok {
+  border: 3px solid green !important;
+}
+.card-server-nok {
+  border: 3px solid rgba(230, 10, 10, 0.784) !important;
+}
+
 .card-title {
   font-size: 0.95rem;
   font-weight: 700;
@@ -136,4 +142,6 @@
 .health-badge { margin-left: 4px; padding: 1px 4px; border-radius: 3px; font-size: 0.60rem; font-weight: 700; }
 .health-badge.ok { background-color: rgba(56,142,60,0.18); color: #66bb6a; }
 .health-badge.warning { background-color: rgba(245,124,0,0.12); color: #ffa726; }
-.health-badge.critical { background-color: rgba(211,47,47,0.12); color: #ef5350; }
+.health-badge.error { background-color: rgba(211,47,47,0.12); color: #ef5350; }
+.health-badge.OFFLINE { background-color: rgba(211,47,47,0.12); color: #ef5350; }
+.health-badge.danger{color: #66bb6a;font-size: 10px;}

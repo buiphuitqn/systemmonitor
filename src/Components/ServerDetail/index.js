@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Descriptions, Card, Tag,Table } from "antd";
 import ItemStatus from "../ItemStatus";
 import './style.css';
+import { fetchStart } from '../../util/CallAPI';
+import Context from "Data/Context";
 
 const columns = [
     {
@@ -10,46 +12,74 @@ const columns = [
         width: 30,
     },
     {
-        title: 'Tag',
-        dataIndex: 'tag',
-        render: (tag) => {
+        title: 'Serverity',
+        dataIndex: 'serverity',
+        width: 100,
+        render: (serverity) => {
             const colorMap = {
                 Debug: "default",
+                OK: "green",
                 Info: "blue",
                 Warn: "gold",
                 Error: "red",
                 Danger: "volcano",
             };
 
-            return <Tag color={colorMap[tag]}>{tag}</Tag>;
+            return <Tag color={colorMap[serverity]}>{serverity}</Tag>;
         },
     },
     {
         title: 'TIME',
-        dataIndex: 'time',
+        dataIndex: 'timestamp',
         key: 'time',
+        width: 200,
     },
     {
         title: 'MESSAGE',
-        dataIndex: 'message',
+        dataIndex: 'logMessage',
         key: 'message',
     },
 ];
-const data = [
-    {
-        index: 1,
-        tag: 'Error',
-        time: '2024-06-01 12:00:00',
-        message: 'CPU usage exceeded threshold',
-    },
-    {
-        index: 2,
-        tag: 'Warn',
-        time: '2024-06-01 12:05:00',
-        message: 'Memory usage high',
-    }
-]
+
 const ServerDetail = () => {
+    const { serverInfo } = React.useContext(Context);
+    const [dataCard, setDataCard] = React.useState([]);
+    const [infoServer, setInfoServer] = React.useState({});
+    const [dataTable, setDataTable] = React.useState([]);
+    useEffect(() => {
+        fetchStart({
+            url: "/api/StatusModule/GetbyServerId",
+            method: "GET",
+            params: { serverId: serverInfo },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataCard(response.data);
+                }
+            });
+        fetchStart({
+            url: "/api/InfoServer/GetInfoByServerId",
+            method: "GET",
+            params: { serverId: serverInfo },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log(response.data);
+                    setInfoServer(response.data[0]);
+                }
+            });
+        fetchStart({
+            url: "/api/IdracLog/GetbyServerId",
+            method: "GET",
+            params: { serverId: serverInfo },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log(response.data);
+                    setDataTable(response.data);
+                }
+            });
+    }, [serverInfo]);
     return (
         <div>
             <Descriptions
@@ -64,31 +94,34 @@ const ServerDetail = () => {
                 }}
                 labelStyle={{ width: 120 }}
                 size="small">
-                <Descriptions.Item label="Hostname">SRV-APP-01</Descriptions.Item>
-                <Descriptions.Item label="IP">10.40.4.10</Descriptions.Item>
-                <Descriptions.Item label="OS">Windows Server 2022</Descriptions.Item>
-                <Descriptions.Item label="CPU">Intel Xeon Gold</Descriptions.Item>
-                <Descriptions.Item label="RAM">32 GB</Descriptions.Item>
-                <Descriptions.Item label="Disk">500 GB</Descriptions.Item>
+                <Descriptions.Item label="Manufacturer">{infoServer.manufacturer || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="System Mode">{infoServer.systemMode || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="Host Name">{infoServer.hostName || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="CPU Model">{infoServer.cpuModel || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="Memory Size">{infoServer.memorySize || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="Service Tag">{infoServer.serviceTag || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="BIOS Version">{infoServer.biosVersion || 'N/A'}</Descriptions.Item>
+                <Descriptions.Item label="Operating System">{infoServer.operatingSystem || 'N/A'}</Descriptions.Item>
             </Descriptions>
             <Card title="Status" style={{ marginTop: 16 }}>
-                <Card.Grid className="card-server-detail">
-                    <ItemStatus item="CPU" status="OK" />
-                </Card.Grid>
-                <Card.Grid className="card-server-detail">
-                    <ItemStatus item="ram" status="Warning" />
-                </Card.Grid>
-                <Card.Grid className="card-server-detail">
-                    <ItemStatus item="Storage" status="Critical" />
-                </Card.Grid>
+                {
+                    console.log(dataCard)
+                }
+                {
+                    dataCard.map((item, idx) => (
+                        <Card.Grid className={`card-server-detail card-server-detail-${item.status=="OK"?item.status.toLowerCase():"nok"}`} key={idx}>
+                            <ItemStatus item={item.moduleName} valueMonitor = {item.valueMonitor} status={item.status} timestamp={item.updatedDate} />
+                        </Card.Grid>
+                    ))
+                }
             </Card>
             <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={dataTable}
                     pagination={false}
                     className="table-server-detail"
                     rowKey="index"
-                    scroll={{ y: 400 }}
+                    scroll={{ y: 250 }}
                     size="small" />
         </div>
     );

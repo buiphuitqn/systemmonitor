@@ -1,0 +1,147 @@
+.menuMain>ant-menu-submenu-expand-icon,
+.ant-menu-submenu-arrow {
+    right: 240px;
+}
+
+.img-header-sider {
+    width: 180px;
+}
+
+.btn-header-sider {
+    width: 40px;
+    height: 40px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: transparent;
+    cursor: pointer
+}
+
+.ant-menu-item {
+    border-radius: 0 !important;
+}
+
+.ant-menu-item-selected {
+    border-right: 2px solid #0066cc !important;
+}
+
+.ant-menu-item-selected span {
+    color: #00529c !important;
+}
+
+.ant-menu span {
+    font-family: Tahoma;
+    font-size: 14px;
+}
+
+.ant-layout-sider {
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1200px) {
+    .header-nav {
+        gap: 24px;
+        margin-left: 40px;
+    }
+
+    .submenu {
+        min-width: 200px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 992px) {
+    .headerbutton {
+        padding: 0 20px;
+    }
+
+    .submenu {
+        min-width: 180px;
+        font-size: 10px !important;
+    }
+
+    .header-nav {
+        gap: 16px;
+        margin-left: 30px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+    }
+
+    .contact-button {
+        padding: 6px 16px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .headerbutton {
+        padding: 0 15px;
+        height: 60px;
+    }
+
+    .submenu {
+        min-width: 160px;
+        font-size: 10px !important;
+    }
+
+    .header-nav {
+        gap: 12px;
+        margin-left: 20px;
+    }
+
+    .nav-link {
+        font-size: 12px;
+    }
+
+    .contact-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .user-dropdown {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .headerbutton {
+        padding: 0 10px;
+        height: 56px;
+    }
+
+    .submenu {
+        min-width: 140px;
+
+    }
+
+    .submenu-link {
+        font-size: 10px !important;
+    }
+
+    .nav-item-wrapper {
+        font-size: 10px !important;
+    }
+
+    /* .header-nav {
+         display: none;
+     } */
+
+    .contact-button {
+        display: none;
+    }
+
+    .user-dropdown {
+        min-width: 280px;
+    }
+}

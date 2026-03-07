@@ -7,6 +7,7 @@ import ServerDetail from '../ServerDetail';
 import Context from "Data/Context";
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
+import { usePermission } from "../../hooks/usePermission";
 
 const columns = [
     {
@@ -58,12 +59,12 @@ const data = [
 ]
 
 const styles = {
+    top: 20,
     mask: {
         backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,
-    },
+    }
 };
 const ContentComponent = () => {
-    const containerRef = useRef(null);
     const { openModal, setOpenModal, serverInfo } = React.useContext(Context);
     const dispatch = useDispatch();
 
@@ -72,6 +73,7 @@ const ContentComponent = () => {
     );
 
     useEffect(() => {
+        console.log(donViList)
         dispatch(
             fetchStart({
                 url: "/api/DonVi",
@@ -86,11 +88,9 @@ const ContentComponent = () => {
     }, [dispatch]);
 
     return (
-        <div style={{ height: "calc(100vh - 90px)", display: "flex", flexDirection: "column" }}>
+        <div
+            className="content-main">
             <div style={{ flex: 1, overflowY: "auto" }}>
-                {
-                    console.log("Render ContentComponent with donViList:", donViList)
-                }
                 {
                     donViList["donViList"]?.list?.map((item, index) => (
                         <Card
@@ -98,13 +98,13 @@ const ContentComponent = () => {
                             title={
                                 <div className="card-title-main"><HomeTwoTone /><p>{item.tenDonVi}</p></div>
                             }>
-                                {
-                                    item.lst_Servers?.map((server, idx) => (
-                                        <Card.Grid hoverable={false} className="car-gird" key={idx}>
-                                            <ServerCard Server_Id = {server.Id} MaServer={server.maServer} title={server.tenServer} />
-                                        </Card.Grid>
-                                    ))
-                                }
+                            {
+                                item.lst_Servers?.map((server, idx) => (
+                                    <Card.Grid hoverable={false} className="car-gird" key={idx}>
+                                        <ServerCard Server_Id={server.id} MaServer={server.maServer} title={server.tenServer} status={server.lst_Status} />
+                                    </Card.Grid>
+                                ))
+                            }
                         </Card>
                     ))
                 }
@@ -121,8 +121,9 @@ const ContentComponent = () => {
             </div>
             <Modal
                 footer={null}
-                title={`Server Details: ${serverInfo}`}
+                title={`Server Details`}
                 styles={styles}
+                style={{ top: 20 }}
                 width={{
                     xs: '95%',
                     sm: '95%',

@@ -4,7 +4,8 @@ import {
   ON_HIDE_LOADER,
   ON_SHOW_LOADER,
   SHOW_MESSAGE,
-  SIGNIN_USER_SUCCESS
+  SIGNIN_USER_SUCCESS,
+  SIGNIN_USER_FAIL
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -23,6 +24,13 @@ const auth = (state = INIT_STATE, action) => {
         ...state,
         loader: false,
         authUser: action.payload,
+        showMessage: false,
+      };
+    case SIGNIN_USER_FAIL:
+      return {
+        ...state,
+        loader: false,
+        authUser: null,
         showMessage: false,
       };
 

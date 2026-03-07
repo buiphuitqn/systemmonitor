@@ -6,12 +6,12 @@ import { Navigate, Route, Routes, useRouteMatch } from 'react-router-dom';
 import { getCookieValue } from './util/Commons'
 import MainApp from './Components/Mainapp';
 import SignIn from './Components/SignIn';
+import ContentComponent from './Components/Content';
 
 
 
 function App() {
   const RestrictedRoute = ({ token, children }) => {
-    console.log("RestrictedRoute token:", token);
     if (!token) {
       return <Navigate to="/signin" replace />;
     }
@@ -31,7 +31,9 @@ function App() {
               <MainApp />
             </RestrictedRoute>
           }
-        />
+        >
+          <Route path="home" element={<ContentComponent />} />
+        </Route>
       </Routes>
     </ContextProvider>
   );
