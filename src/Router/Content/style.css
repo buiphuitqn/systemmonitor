@@ -313,8 +313,8 @@
 }
 
 .ant-table-thead > tr > th {
-  background: #162336 !important;
-  color: #9ca3af !important;
+  background: #00529C !important;
+  color: white !important;
   font-weight: 600;
 }
 
@@ -322,9 +322,6 @@
   border-bottom: 1px solid #1f2a3a;
 }
 
-.ant-table-tbody > tr:hover > td {
-  background: #1b2a40 !important;
-}
 
 @media screen and (min-width: 1420px){
     .car-gird{

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
 import HeaderBar from "../HeaderBar";
-import ContentComponent from "../Content";
+import ContentComponent from "../../Router/Content";
 import SiderBar from "../SiderBar";
 import './style.css';
 import Context from "Data/Context";
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
 import FooterBar from "../FooterBar";
-import AppRouter from "../../Router";
 import { Outlet } from "react-router-dom";
 
 const { Content, Footer, Sider } = Layout;

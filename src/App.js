@@ -6,7 +6,10 @@ import { Navigate, Route, Routes, useRouteMatch } from 'react-router-dom';
 import { getCookieValue } from './util/Commons'
 import MainApp from './Components/Mainapp';
 import SignIn from './Components/SignIn';
-import ContentComponent from './Components/Content';
+import ContentComponent from './Router/Content';
+import Donvi from './Router/Donvi';
+import Nguoidung from 'Router/Nguoidung';
+import Maychu from 'Router/Maychu';
 
 
 
@@ -33,6 +36,9 @@ function App() {
           }
         >
           <Route path="home" element={<ContentComponent />} />
+          <Route path="he-thong/don-vi" element={<Donvi />} />
+          <Route path="he-thong/may-chu" element={<Maychu />} />
+          <Route path="he-thong/nguoi-dung" element={<Nguoidung />} />
         </Route>
       </Routes>
     </ContextProvider>

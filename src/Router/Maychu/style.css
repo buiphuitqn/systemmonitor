@@ -1,0 +1,36 @@
+.maychu-main .maychu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.maychu-main .maychu-header p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.maychu-main .maychu-search {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.maychu-main .maychu-search .maychu-search-left {
+    width: 40%;
+    padding-right: 20px;
+}
+
+.maychu-main .maychu-search .maychu-search-left .maychu-search-select{
+    width: 100%;
+}
+.maychu-main .maychu-search .maychu-search-right {
+    width: 60%;
+}
+.maychu-main .maychu-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}

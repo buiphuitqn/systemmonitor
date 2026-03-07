@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dropdown, Avatar, message } from "antd";
 import { createStyles } from 'antd-style';
 import './style.css';
@@ -7,6 +7,7 @@ import {
     LogoutOutlined,
     UserOutlined
 } from "@ant-design/icons";
+import { getLocalStorage } from "../../util/Commons";
 const useStyles = createStyles(({ token }) => ({
     root: {
         backgroundColor: token.colorFillAlter,
@@ -15,7 +16,7 @@ const useStyles = createStyles(({ token }) => ({
     },
 }));
 const onClick = ({ key }) => {
-    if(key === '1') {
+    if (key === '1') {
         logOut();
     }
 };
@@ -40,12 +41,18 @@ const objectStyles = info => {
     return {};
 };
 const Profile = () => {
+    const [userdata, setUserData] = React.useState({});
     const { styles } = useStyles();
     const sharedProps = {
-        menu: { items,onClick },
+        menu: { items, onClick },
         placement: 'bottomLeft',
         classNames: { root: styles.root },
     };
+
+    useEffect(() => {
+        setUserData(getLocalStorage('userInfo'))
+    }, []);
+
     return (
         <Dropdown
             {...sharedProps}
@@ -56,8 +63,8 @@ const Profile = () => {
                     icon={<UserOutlined />}
                 />
                 <div className="profile-content">
-                    <p className="user-name">Bùi Ngọc Phú</p>
-                    <p className="user-email">buingocphu@thaco.com.vn</p>
+                    <p className="user-name">{userdata.fullName?userdata.fullName:"N/a"}</p>
+                    <p className="user-email">{userdata.email?userdata.email:"N/a"}</p>
                 </div>
             </div>
         </Dropdown>

@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import './style.css';
 import { Table, Card, Modal, Tag } from "antd";
 import { HomeTwoTone, ClearOutlined } from "@ant-design/icons";
-import ServerCard from '../ServerCard';
-import ServerDetail from '../ServerDetail';
+import ServerCard from '../../Components/ServerCard';
+import ServerDetail from '../../Components/ServerDetail';
 import Context from "Data/Context";
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
-import { usePermission } from "../../hooks/usePermission";
+import { usePermission } from "../../Hooks/usePermission";
 
 const columns = [
     {
@@ -59,7 +59,6 @@ const data = [
 ]
 
 const styles = {
-    top: 20,
     mask: {
         backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,
     }
