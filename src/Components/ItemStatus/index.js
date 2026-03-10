@@ -17,7 +17,7 @@ const ItemStatus = ({ item, status, timestamp, valueMonitor }) => {
                     </span>
                         {valueMonitor ? `(Value: ${valueMonitor})` : ''}
                     </Descriptions.Item>
-                    <Descriptions.Item label="TimeStamp">{timestamp}</Descriptions.Item>
+                    <Descriptions.Item label="TimeStamp">{timestamp ? new Date(timestamp.endsWith('Z') ? timestamp : timestamp + 'Z').toLocaleString('vi-VN') : 'N/A'}</Descriptions.Item>
                 </Descriptions>
             </div>
         </div>

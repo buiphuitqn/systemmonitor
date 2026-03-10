@@ -21,3 +21,33 @@
     border-radius: 10px;
     padding: 20px;
 }
+
+/* Tree level styling */
+.donvi-level-0 {
+    background-color: #f0f5ff;
+    font-weight: 600;
+}
+.donvi-level-0:hover > td {
+    background-color: #d6e4ff !important;
+}
+
+.donvi-level-1 {
+    background-color: #f6ffed;
+}
+.donvi-level-1:hover > td {
+    background-color: #d9f7be !important;
+}
+
+.donvi-level-2 {
+    background-color: #fff7e6;
+}
+.donvi-level-2:hover > td {
+    background-color: #ffe7ba !important;
+}
+
+.donvi-level-3 {
+    background-color: #f9f0ff;
+}
+.donvi-level-3:hover > td {
+    background-color: #efdbff !important;
+}

@@ -25,8 +25,53 @@
     color: #00529C;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
     .profile-main .profile-content {
         display: none;
     }
+}
+
+/* Profile Modal */
+.profile-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-modal-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-upload-wrapper {
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 50%;
+}
+
+.avatar-upload-wrapper:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #999;
 }

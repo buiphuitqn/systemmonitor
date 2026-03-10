@@ -1,35 +1,13 @@
 import React, { useEffect } from "react";
 import './style.css';
-import { Button, Input, Modal, Table, Form, Upload } from "antd";
+import { Button, Input, Modal, Table, Form, Upload, Image, Popconfirm, Select, Tag } from "antd";
 import { fetchStart } from '../../util/CallAPI';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { usePermission } from '../../Hooks/usePermission';
+import { PlusOutlined, LoadingOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { BASE_URL_API } from '../../util/Config';
 
 
 const { Search } = Input;
-const columns = [
-    {
-        title: 'STT',
-        dataIndex: 'stt',
-        width: 10,
-        render: (text, record, index) => index + 1
-    },
-    {
-        title: 'Tên đơn vị',
-        dataIndex: 'tenDonVi',
-    },
-    {
-        title: 'Địa chỉ',
-        dataIndex: 'diaChi',
-    },
-    {
-        title: 'Tên đầy dủ',
-        dataIndex: 'tenDayDu',
-    },
-    {
-        title: 'Hình ảnh',
-        dataIndex: 'logoUrl',
-    }
-]
 
 const styles = {
     mask: {
@@ -51,11 +29,16 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 const Donvi = () => {
+    const { permission } = usePermission();
     const [data, setData] = React.useState([]);
+    const [filteredData, setFilteredData] = React.useState([]);
+    const [searchText, setSearchText] = React.useState('');
     const [openModelDonvi, setOpenModelDonvi] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState();
     const [imageFile, setImageFile] = React.useState();
     const [loading, setLoading] = React.useState(false);
+    const [editingRecord, setEditingRecord] = React.useState(null);
+    const [parentList, setParentList] = React.useState([]);
     const [form] = Form.useForm();
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
@@ -63,6 +46,172 @@ const Donvi = () => {
             <div style={{ marginTop: 8 }}>Upload</div>
         </button>
     );
+
+    const fetchParentList = () => {
+        fetchStart({
+            url: "/api/DonVi/GetAll",
+            method: "GET",
+        }).then((response) => {
+            if (response.status === 200) {
+                setParentList(response.data);
+            }
+        });
+    };
+
+    const handleEdit = (record) => {
+        console.log(record);
+        setEditingRecord(record);
+        fetchParentList();
+        setOpenModelDonvi(true);
+        form.setFieldsValue({
+            MaDonVi: record.maDonVi,
+            TenDonVi: record.tenDonVi,
+            DiaChi: record.diaChi,
+            TenDayDu: record.tenDayDu,
+            Parent_Id: record.parent_Id || undefined,
+        });
+        setImageUrl(record.logoUrl ? `${BASE_URL_API}${record.logoUrl}` : null);
+    }
+
+    const handleDelete = (record) => {
+        fetchStart({
+            url: "/api/DonVi",
+            method: "DELETE",
+            params: {
+                id: record.id,
+            },
+        })
+            .then((response) => {
+                if (response.status === 200 || response.status === 204) {
+                    fetchDonVi();
+                }
+            });
+    }
+
+    const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'stt',
+            width: 10,
+            align: 'center',
+            render: (text, record, index) => index + 1
+        },
+        {
+            title: 'Tên đơn vị',
+            dataIndex: 'tenDonVi',
+            render: (text, record) => {
+                const level = record.level || 0;
+                const colors = ['blue', 'green', 'orange', 'purple', 'cyan'];
+                const tagColor = colors[level % colors.length];
+                return (
+                    <span style={{ fontWeight: level === 0 ? 600 : 400 }}>
+                        <Tag color={tagColor} style={{ marginRight: 8 }}>Cấp {level}</Tag>
+                        {text}
+                    </span>
+                );
+            }
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'diaChi',
+        },
+        {
+            title: 'Tên đầy đủ',
+            dataIndex: 'tenDayDu',
+        },
+        {
+            title: 'Hình ảnh',
+            dataIndex: 'logoUrl',
+            align: 'center',
+            width: 120,
+            render: (logoUrl) => logoUrl ? (
+                <Image
+                    src={`${BASE_URL_API}${logoUrl}`}
+                    alt="logo"
+                    width={60}
+                    style={{ objectFit: 'contain' }}
+                />
+            ) : null
+        },
+        (permission.edit || permission.del) && {
+            title: 'Hành động',
+            align: 'center',
+            width: 100,
+            render: (text, record) => (
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+                    {permission.edit && <Button type="text" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record)} />}
+                    {permission.del && <Popconfirm
+                        title="Xác nhận xóa"
+                        description="Bạn có chắc chắn muốn xóa đơn vị này?"
+                        onConfirm={() => handleDelete(record)}
+                        okText="Xóa"
+                        cancelText="Hủy"
+                    >
+                        <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
+                    </Popconfirm>}
+                </div>
+            )
+        }
+    ].filter(Boolean);
+
+    const buildTreeData = (list) => {
+        const map = {};
+        const roots = [];
+        list.forEach(item => {
+            map[item.id] = { ...item, children: [] };
+        });
+        list.forEach(item => {
+            if (item.parent_Id && map[item.parent_Id]) {
+                map[item.parent_Id].children.push(map[item.id]);
+            } else {
+                roots.push(map[item.id]);
+            }
+        });
+        // Xóa children rỗng để Table không hiện expand icon
+        const cleanEmpty = (nodes) => {
+            nodes.forEach(node => {
+                if (node.children.length === 0) {
+                    delete node.children;
+                } else {
+                    cleanEmpty(node.children);
+                }
+            });
+        };
+        cleanEmpty(roots);
+        return roots;
+    };
+
+    const fetchDonVi = () => {
+        fetchStart({
+            url: "/api/DonVi",
+            method: "GET",
+            params: {
+                page: 1,
+                pageSize: 200,
+            },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    setData(response.data.list);
+                    setFilteredData(buildTreeData(response.data.list));
+                }
+            });
+    };
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        setSearchText(value);
+        if (value.trim() === '') {
+            setFilteredData(buildTreeData(data));
+        } else {
+            const filtered = data.filter(item =>
+                (item.tenDonVi && item.tenDonVi.toLowerCase().includes(value)) ||
+                (item.diaChi && item.diaChi.toLowerCase().includes(value)) ||
+                (item.tenDayDu && item.tenDayDu.toLowerCase().includes(value))
+            );
+            setFilteredData(buildTreeData(filtered));
+        }
+    };
 
     const onFinish = async (values) => {
 
@@ -73,66 +222,101 @@ const Donvi = () => {
         formData.append("DiaChi", values.DiaChi);
         formData.append("TenDayDu", values.TenDayDu);
 
+        if (values.Parent_Id) {
+            formData.append("Parent_Id", values.Parent_Id);
+        }
+
+        // Gửi file ảnh nếu có (backend nhận bằng IFormFile file)
+        if (imageFile) {
+            formData.append("file", imageFile);
+        }
+
+        // Phân biệt chế độ Sửa vs Thêm mới
+        const isEditing = editingRecord !== null;
+        const url = isEditing ? "/api/DonVi/SuaDonVi" : "/api/DonVi/ThemDonVi";
+        const method = isEditing ? "PUT" : "POST";
+
+        if (isEditing) {
+            formData.append("Id", editingRecord.id);
+        }
+
         fetchStart({
-            url: "/api/DonVi",
-            method: "POST",
-            body: formData
+            url,
+            method,
+            data: formData
         })
-            .then((response) =>{
-                if (response.status === 200) {
+            .then((response) => {
+                if (response.status === 200 || response.status === 201) {
                     setOpenModelDonvi(false);
+                    form.resetFields();
+                    setImageUrl(null);
+                    setImageFile(null);
+                    setEditingRecord(null);
+                    fetchDonVi();
+                } else if (response.status === 409) {
+                    alert("Mã đơn vị đã tồn tại!");
+                } else {
+                    console.log(response);
                 }
-                else 
-                    console.log(response)
             })
     }
 
     useEffect(() => {
-        fetchStart({
-            url: "/api/DonVi",
-            method: "GET",
-            params: {
-                page: 1,
-                pageSize: 20,
-            },
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    setData(response.data.list);
-                }
-            });
+        fetchDonVi();
     }, [])
     return (
         <div className="donvi-main">
             <div className="donvi-header">
                 <p>Danh sách đơn vị</p>
-                <Button type="primary" onClick={() => setOpenModelDonvi(true)}>Thêm mới</Button>
+                {permission.add && <Button type="primary" onClick={() => {
+                    setEditingRecord(null);
+                    form.resetFields();
+                    setImageUrl(null);
+                    setImageFile(null);
+                    fetchParentList();
+                    setOpenModelDonvi(true);
+                }}>Thêm mới</Button>}
             </div>
             <div className="donvi-search">
                 <div>
                     <p>Từ khóa</p>
-                    <Search placeholder="Nhập từ khóa" />
+                    <Search
+                        placeholder="Nhập tên, địa chỉ đơn vị"
+                        value={searchText}
+                        onChange={handleSearch}
+                    />
                 </div>
             </div>
             <div className="donvi-content">
-                <Table columns={columns} dataSource={data} />
+                <Table
+                    columns={columns}
+                    bordered
+                    dataSource={filteredData}
+                    rowKey="id"
+                    defaultExpandAllRows
+                    pagination={false}
+                    rowClassName={(record) => `donvi-level-${record.level || 0}`}
+                />
             </div>
             <Modal
-                title="Thêm mới đơn vị"
+                title={editingRecord ? "Chỉnh sửa đơn vị" : "Thêm mới đơn vị"}
                 open={openModelDonvi}
                 footer={null}
                 styles={styles}
                 style={{ top: 20 }}
-                onCancel={() => setOpenModelDonvi(false)}
+                onCancel={() => {
+                    setOpenModelDonvi(false);
+                    setEditingRecord(null);
+                    form.resetFields();
+                    setImageUrl(null);
+                    setImageFile(null);
+                }}
             >
                 <Form
                     {...layout}
                     form={form}
                     name="nest-messages"
-                    onFinish={(values) => {
-                        onFinish(values);
-                        setOpenModelDonvi(false);
-                    }}
+                    onFinish={onFinish}
                 >
                     <Form.Item
                         name={['MaDonVi']}
@@ -177,6 +361,25 @@ const Donvi = () => {
                         ]}
                     >
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name={['Parent_Id']}
+                        label="Đơn vị cha"
+                    >
+                        <Select
+                            allowClear
+                            placeholder="Chọn đơn vị cha"
+                            options={parentList
+                                .filter(item => !editingRecord || item.id !== editingRecord.id)
+                                .map(item => ({
+                                    value: item.id,
+                                    label: item.tenDonVi,
+                                }))}
+                            showSearch
+                            filterOption={(input, option) =>
+                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                            }
+                        />
                     </Form.Item>
                     <Form.Item
                         label="Hình ảnh"

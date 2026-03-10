@@ -1,0 +1,23 @@
+.vaitro-main .vaitro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.vaitro-main .vaitro-header p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.vaitro-main .vaitro-search {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.vaitro-main .vaitro-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}

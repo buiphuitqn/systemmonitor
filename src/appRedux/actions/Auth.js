@@ -1,43 +1,47 @@
 // src/appRedux/actions/Auth.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import {
-    SIGNIN_USER_SUCCESS,
-    SIGNIN_USER_FAIL,
-    ON_SHOW_LOADER,
-    SHOW_MESSAGE,
-    ON_HIDE_LOADER
+  SIGNIN_USER_SUCCESS,
+  SIGNIN_USER_FAIL,
+  ON_SHOW_LOADER,
+  SHOW_MESSAGE,
+  ON_HIDE_LOADER
 } from 'constants/ActionTypes';
-import { setCookieValue,setLocalStorage,removeCookieValue,removeLocalStorage } from 'util/Commons';
+import { setCookieValue, setLocalStorage, removeCookieValue, removeLocalStorage } from 'util/Commons';
 import api from 'util/Api';
 import Helper from 'Helper';
 export const loginUser = (data) => {
-    return async (dispatch) => {
-        dispatch({ type: ON_SHOW_LOADER });
+  return async (dispatch) => {
+    dispatch({ type: ON_SHOW_LOADER });
 
-        try {
-            const res = await api.post('/token', data);
-            console.log("Login response:", res);
-            if(res.status == 200){
-                setCookieValue('tokenInfo', res.data.token);
-                setLocalStorage('userInfo', {
-                    fullName: res.data.fullName,
-                    email: res.data.email
-                });
-                dispatch({ type: SIGNIN_USER_SUCCESS, payload: { token: res.data.token, user: res.data } });
-                dispatch({ type: ON_HIDE_LOADER });
-                window.location.href = '/';
-            }
-            else{
-              Helper.openNotificationWithIcon('error', 'Login Failed', 'Invalid username or password.');
-              dispatch({ type: ON_HIDE_LOADER });
-              return;
-            }
-        } catch (err) {
-            console.error("Login error:", err);
-            Helper.openNotificationWithIcon('error', 'Đăng nhập thất bại', 'Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại.');
-            dispatch({ type: ON_HIDE_LOADER });
+    try {
+      const res = await api.post('/token', data);
+      if (res.status == 200) {
+        setCookieValue('tokenInfo', res.data.token);
+        if (res.data.refreshToken) {
+          setCookieValue('refreshToken', res.data.refreshToken);
         }
-    };
+        setLocalStorage('userInfo', {
+          fullName: res.data.fullName,
+          email: res.data.email,
+          avatarUrl: res.data.avatarUrl
+        });
+        dispatch({ type: SIGNIN_USER_SUCCESS, payload: { token: res.data.token, refreshToken: res.data.refreshToken, user: res.data } });
+        dispatch({ type: ON_HIDE_LOADER });
+        window.location.href = '/';
+      }
+      else {
+        Helper.openNotificationWithIcon('error', 'Login Failed', 'Invalid username or password.');
+        dispatch({ type: ON_HIDE_LOADER });
+        return;
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      const errorMessage = err.response?.data?.message || 'Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại.';
+      Helper.openNotificationWithIcon('error', 'Đăng nhập thất bại', errorMessage);
+      dispatch({ type: ON_HIDE_LOADER });
+    }
+  };
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -54,6 +58,7 @@ const authSlice = createSlice({
       state.token = null
       state.isAuthenticated = false
       removeCookieValue('tokenInfo')
+      removeCookieValue('refreshToken')
       removeLocalStorage('userInfo')
     },
   },

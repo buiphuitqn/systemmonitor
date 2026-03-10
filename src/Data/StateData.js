@@ -8,7 +8,7 @@ const initialState = () => {
     return [];
   }
 };
-export default function () {
+export default function useStateData() {
     const [login, setLogin] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const [loading, setLoading] = React.useState(true);

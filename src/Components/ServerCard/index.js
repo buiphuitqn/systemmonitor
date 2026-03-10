@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import './style.css';
-import { Card, Button } from "antd";
+import { Card, Button, Tooltip } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import Context from "Data/Context";
 import { FaServer, FaMicrochip, FaMemory, FaHdd, FaFan, FaPowerOff, FaNetworkWired, FaThermometerHalf } from 'react-icons/fa';
 import { useSelector, useDispatch } from "react-redux";
@@ -44,9 +45,9 @@ const ServerCard = ({ Server_Id, MaServer, title, status }) => {
     };
     const renderStatus = (label, value) => {
         let _value = value;
-        if(value=="OK") _value = "ok"
-        else if(value=="WARNING") _value = "warning"
-        else if(value=="CRITICAL") _value = "error"
+        if (value == "OK") _value = "ok"
+        else if (value == "WARNING") _value = "warning"
+        else if (value == "CRITICAL") _value = "error"
         else _value = "danger"
         return (
             <div className="status-item" key={label}>
@@ -59,13 +60,14 @@ const ServerCard = ({ Server_Id, MaServer, title, status }) => {
 
     const checkStatus = (array, value) => {
         let status = "OK";
+        if (!array || !Array.isArray(array)) return "N/A";
 
         for (const item of array) {
-            if (item.moduleName.includes(value)) {
+            if (item && item.moduleName && item.moduleName.includes(value)) {
                 if (item.valueMonitor && item.valueMonitor !== 0) {
                     return item.valueMonitor;
                 }
-                status = item.status;
+                status = item.status || status;
             }
         }
 
@@ -77,12 +79,19 @@ const ServerCard = ({ Server_Id, MaServer, title, status }) => {
             title={
                 <div className="card-title"><FaServer className="server-icon" />{title}</div>
             }
-            extra={<Button type="link" onClick={() => {
-                setOpenModal(true);
-                setServerInfo(Server_Id);
-            }}>More</Button>}
+            extra={
+                <Tooltip title="Chi tiết">
+                    <InfoCircleOutlined
+                        style={{ fontSize: 18, color: '#1890ff', cursor: 'pointer' }}
+                        onClick={() => {
+                            setOpenModal(true);
+                            setServerInfo(Server_Id);
+                        }}
+                    />
+                </Tooltip>
+            }
             variant="borderless"
-            className={`card-server card-server-${status[0].status == "OK" ? status[0].status.toLowerCase() : "nok"}`}>
+            className={`card-server card-server-${status && status.length > 0 && status[0].status === "OK" ? "ok" : "nok"}`}>
             <div className="card-body">
                 <div className="status-list">
                     {renderStatus('CPU', checkStatus(status, "Processor"))}

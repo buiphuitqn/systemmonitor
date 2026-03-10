@@ -11,7 +11,9 @@ export const getCookieValue = (name) => {
 };
 
 export const setCookieValue = (name, value, opt = {}) => {
-  return cookie.save(name, value, opt);
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 7); // Default to 7 days expiration
+  return cookie.save(name, value, { path: '/', expires: expires, ...opt });
 };
 export const removeCookieValue = (name) => {
   return cookie.remove(name, { path: "/" });
@@ -49,7 +51,7 @@ export const getLocalStorage = (key) => {
  * @returns
  */
 export const removeLocalStorage = (key) => {
-  return localStorage.getItem(key);
+  return localStorage.removeItem(key);
 };
 
 /**
@@ -64,6 +66,7 @@ export const removeAllLocalStorage = () => {
 
 export const logOut = async () => {
   await removeCookieValue("tokenInfo");
+  await removeCookieValue("refreshToken");
 
   await removeLocalStorage("userInfo");
   // await removeAllLocalStorage();

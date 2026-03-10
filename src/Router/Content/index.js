@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import './style.css';
-import { Table, Card, Modal, Tag } from "antd";
-import { HomeTwoTone, ClearOutlined } from "@ant-design/icons";
+import { Table, Card, Modal, Tag, Button } from "antd";
+import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, ClearOutlined } from "@ant-design/icons";
 import ServerCard from '../../Components/ServerCard';
 import ServerDetail from '../../Components/ServerDetail';
 import Context from "Data/Context";
+import { fetchStart as fetchStartApi } from '../../util/CallAPI';
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { usePermission } from "../../Hooks/usePermission";
 
 const columns = [
     {
-        title: "",
-        dataIndex: "index",
+        title: "TT",
         width: 60,
+        align: "center",
+        render: (text, record, index) => index + 1
     },
     {
         title: 'Tag',
@@ -21,107 +23,194 @@ const columns = [
         width: 120,
         render: (tag) => {
             const colorMap = {
-                Debug: "default",
+                OK: "success",
                 Info: "blue",
+                Informational: "blue",
+                Warning: "gold",
                 Warn: "gold",
                 Error: "red",
+                Critical: "volcano",
                 Danger: "volcano",
             };
 
-            return <Tag color={colorMap[tag]}>{tag}</Tag>;
+            return <Tag color={colorMap[tag] || "default"}>{tag}</Tag>;
         },
     },
     {
-        title: 'TIME',
+        title: 'Thời gian',
         dataIndex: 'time',
         key: 'time',
         width: 200,
     },
     {
-        title: 'MESSAGE',
+        title: 'Tên máy chủ',
+        dataIndex: 'tenMayChu',
+        key: 'tenMayChu',
+    },
+    {
+        title: 'Thông tin nhật ký',
         dataIndex: 'message',
         key: 'message',
     },
 ];
-const data = [
-    {
-        index: 1,
-        tag: 'Error',
-        time: '2024-06-01 12:00:00',
-        message: 'CPU usage exceeded threshold',
-    },
-    {
-        index: 2,
-        tag: 'Warn',
-        time: '2024-06-01 12:05:00',
-        message: 'Memory usage high',
-    }
-]
 
 const styles = {
     mask: {
         backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,
     }
 };
+
+const buildTreeData = (list) => {
+    if (!list) return [];
+    const map = {};
+    const roots = [];
+    list.forEach(item => {
+        map[item.id] = { ...item, children: [] };
+    });
+    list.forEach(item => {
+        if (item.parent_Id && map[item.parent_Id]) {
+            map[item.parent_Id].children.push(map[item.id]);
+        } else {
+            roots.push(map[item.id]);
+        }
+    });
+    return roots;
+};
+
+const levelColors = [
+    { border: '#00529c', icon: '#00529c' },
+    { border: 'green', icon: 'green' },
+    { border: '#fa8c16', icon: '#fa8c16' },
+    { border: '#722ed1', icon: '#722ed1' },
+];
+
+const RenderDonViTree = ({ nodes, level = 0 }) => {
+    const [collapsed, setCollapsed] = React.useState({});
+
+    if (!nodes || nodes.length === 0) return null;
+    const colorSet = levelColors[level % levelColors.length];
+
+    const toggleCollapse = (id) => {
+        setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
+    };
+
+    return nodes.map((item) => {
+        const hasChildren = item.children && item.children.length > 0;
+        const isCollapsed = collapsed[item.id];
+
+        return (
+            <div key={item.id} style={{ marginLeft: level * 24, marginBottom: 8 }}>
+                <Card
+                    size={level > 0 ? "small" : "default"}
+                    style={{
+                        borderLeft: `4px solid ${colorSet.border}`,
+                    }}
+                    title={
+                        <div className="card-title-main">
+                            {level === 0 ? <HomeTwoTone /> : <ApartmentOutlined style={{ color: colorSet.icon }} />}
+                            <p style={{ color: colorSet.border }}>
+                                <Tag color={colorSet.border} style={{ marginRight: 8 }}>Cấp {level}</Tag>
+                                {item.tenDonVi}
+                            </p>
+                            {hasChildren && (
+                                <Button
+                                    type="text"
+                                    size="small"
+                                    icon={isCollapsed ? <RightOutlined /> : <DownOutlined />}
+                                    onClick={() => toggleCollapse(item.id)}
+                                    style={{ marginLeft: 'auto', color: colorSet.border }}
+                                />
+                            )}
+                        </div>
+                    }>
+                    {
+                        item.lst_Servers?.length > 0 && item.lst_Servers.map((server, idx) => (
+                            <Card.Grid hoverable={false} className="car-gird" key={idx}>
+                                <ServerCard Server_Id={server.id} MaServer={server.maServer} title={server.tenServer} status={server.lst_Status} />
+                            </Card.Grid>
+                        ))
+                    }
+                    {hasChildren && !isCollapsed && (
+                        <div style={{ marginTop: 8 }}>
+                            <RenderDonViTree nodes={item.children} level={level + 1} />
+                        </div>
+                    )}
+                </Card>
+            </div>
+        );
+    });
+};
+
 const ContentComponent = () => {
     const { openModal, setOpenModal, serverInfo } = React.useContext(Context);
     const dispatch = useDispatch();
+    const [logData, setLogData] = useState([]);
 
     const { response: donViList, loading } = useSelector(
         (state) => state.common
     );
 
+    const fetchLogs = () => {
+        fetchStartApi({
+            url: "/api/IdracLog/GetNotOk",
+            method: "GET",
+            params: { pageSize: 200 },
+        }).then((response) => {
+            if (response.status === 200) {
+                const mapped = response.data.map(item => ({
+                    id: item.id,
+                    tag: item.serverity || 'Unknown',
+                    time: item.timestamp ? new Date(item.timestamp.endsWith('Z') ? item.timestamp : item.timestamp + 'Z').toLocaleString('vi-VN') : '',
+                    tenMayChu: item.tenServer,
+                    message: item.logMessage,
+                }));
+                setLogData(mapped);
+            }
+        });
+    };
+
     useEffect(() => {
-        console.log(donViList)
         dispatch(
             fetchStart({
                 url: "/api/DonVi",
                 method: "GET",
                 params: {
                     page: 1,
-                    pageSize: 20,
+                    pageSize: 200,
                 },
                 key: 'donViList'
             })
         );
+        fetchLogs();
     }, [dispatch]);
+
+    const treeData = buildTreeData(donViList["donViList"]?.list);
 
     return (
         <div
             className="content-main">
             <div style={{ flex: 1, overflowY: "auto" }}>
-                {
-                    donViList["donViList"]?.list?.map((item, index) => (
-                        <Card
-                            key={index}
-                            title={
-                                <div className="card-title-main"><HomeTwoTone /><p>{item.tenDonVi}</p></div>
-                            }>
-                            {
-                                item.lst_Servers?.map((server, idx) => (
-                                    <Card.Grid hoverable={false} className="car-gird" key={idx}>
-                                        <ServerCard Server_Id={server.id} MaServer={server.maServer} title={server.tenServer} status={server.lst_Status} />
-                                    </Card.Grid>
-                                ))
-                            }
-                        </Card>
-                    ))
-                }
+                <RenderDonViTree nodes={treeData} />
             </div>
-            <div style={{ height: 200, borderTop: "1px solid #ddd", background: "#fff" }}>
-                LOG TABLE
+            <div className="log-panel">
+                <div className="log-panel-header">
+                    <DatabaseOutlined className="log-panel-icon" />
+                    <span className="log-panel-title">System Logs</span>
+                    <Tag color="blue" style={{ marginLeft: 'auto' }}>{logData.length} entries</Tag>
+                </div>
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={logData}
                     pagination={false}
-                    rowKey="index"
-                    scroll={{ y: 400 }}
-                    size="small" />
+                    rowKey="id"
+                    scroll={{ y: 140 }}
+                    size="small"
+                    className="log-table"
+                />
             </div>
             <Modal
                 footer={null}
                 title={`Server Details`}
-                styles={styles}
                 style={{ top: 20 }}
                 width={{
                     xs: '95%',
@@ -133,6 +222,7 @@ const ContentComponent = () => {
                 }}
                 open={openModal}
                 onCancel={() => setOpenModal(false)}
+                enforceFocus={false}
             >
                 <ServerDetail />
             </Modal>

@@ -1,11 +1,11 @@
-
-.content-main{
+.content-main {
     background-color: #F5F5F5;
     height: calc(100vh - 90px);
     display: flex;
     flex-direction: column;
     padding: 10px;
 }
+
 .content-wrapper {
     display: flex;
     flex-direction: column;
@@ -292,50 +292,111 @@
     padding: 5px !important;
     box-shadow: none !important;
 }
-.card-title{
+
+.card-title {
     font-size: 16px;
     font-weight: bold;
     color: #fff;
 }
+
 .card-title-main {
     display: flex;
     align-items: center;
 }
+
 .card-title-main p {
     font-size: 18px;
     font-weight: bold;
     color: #00529C;
     margin: 10px;
 }
+
 .ant-table {
-  background: #0f1b2b;
-  color: #d1d5db;
+    background: #0f1b2b;
+    color: #d1d5db;
 }
 
-.ant-table-thead > tr > th {
-  background: #00529C !important;
-  color: white !important;
-  font-weight: 600;
+.ant-table-thead>tr>th {
+    background: #00529C !important;
+    color: white !important;
+    font-weight: 600;
 }
 
-.ant-table-tbody > tr > td {
+/* .ant-table-tbody > tr > td {
   border-bottom: 1px solid #1f2a3a;
-}
+} */
 
 
-@media screen and (min-width: 1420px){
-    .car-gird{
-        width: 20% !important;
+@media screen and (min-width: 1420px) {
+    .car-gird {
+        width: 25% !important;
     }
 }
-@media screen and (max-width: 900px){
-    .car-gird{
+
+@media screen and (max-width: 900px) {
+    .car-gird {
         width: 50% !important;
     }
 }
 
-@media screen and (max-width: 600px){
-    .car-gird{
+@media screen and (max-width: 600px) {
+    .car-gird {
         width: 100% !important;
     }
+}
+
+/* Log Panel */
+.log-panel {
+    border-top: none;
+    background: #fff;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+    margin-top: 20px;
+}
+
+.log-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #00529C 0%, #0073d1 100%);
+    color: #fff;
+}
+
+.log-panel-icon {
+    font-size: 16px;
+    color: #fff;
+}
+
+.log-panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.log-table .ant-table {
+    background: #fafbfc;
+    font-size: 13px;
+}
+
+.log-table .ant-table-thead>tr>th {
+    background: #f0f2f5 !important;
+    color: #333 !important;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 8px 12px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.log-table .ant-table-tbody>tr>td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.log-table .ant-table-tbody>tr:hover>td {
+    background: #e6f7ff !important;
 }

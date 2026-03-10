@@ -48,17 +48,15 @@
 }
 
 .card-server{
-  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
   padding: 12px;
   margin: 0;
   width: 100%;
-  color: #f0f0f0;
+  color: #333;
   transition: transform 0.25s, box-shadow 0.25s;
   position: relative;
   overflow: hidden;
-  
   min-height: auto;
-  background-color: #25252a;
+  background-color: #fff;
 }
 
 .card-server-ok {
@@ -74,7 +72,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #fff !important;
+  color: #333 !important;
 }
 .ant-card-head{
     min-height: 10px !important;
@@ -128,9 +126,9 @@
   border-radius: 4px;
 }
 
-.status-icon { color: #999; font-size: 0.8rem; }
+.status-icon { color: #666; font-size: 0.8rem; }
 
-.label { font-weight: 600; color: #aaa; font-size: 0.55rem; }
+.label { font-weight: 600; color: #666; font-size: 0.55rem; }
 
 .value { font-size: 0.75rem; font-weight: 600; color: #fff; background: rgba(255,255,255,0.03); padding: 1px 4px; border-radius: 3px; }
 .value.low { color: #66bb6a; background: rgba(102,187,106,0.06); }

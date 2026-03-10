@@ -1,0 +1,17 @@
+.quanlymenu-main .quanlymenu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.quanlymenu-main .quanlymenu-header p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.quanlymenu-main .quanlymenu-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
