@@ -45,7 +45,6 @@ const MainApp = () => {
                 <SiderBar />
             </Sider>
             <Layout>
-                <HeaderBar />
                 <Content style={{ padding: 10 }}>
                     <Outlet />
                 </Content>

@@ -43,17 +43,33 @@ const ServerCard = ({ Server_Id, MaServer, title, status }) => {
             default: return null;
         }
     };
+    const formatValue = (label, val) => {
+        if (val === "OK" || val === "WARNING" || val === "CRITICAL" || val === "Danger" || val === "N/A" || isNaN(val)) {
+            return val;
+        }
+        const num = parseFloat(val);
+        if (label === 'Temp') return `${num} °C`;
+        if (label === 'Power') return `${num} W`;
+        if (label === 'Fan') return `${num} RPM`;
+        if (label === 'Network') return `${num} Mbps`;
+        if (label === 'Storage') return `${num} GB`;
+        return val;
+    };
+
     const renderStatus = (label, value) => {
         let _value = value;
         if (value == "OK") _value = "ok"
         else if (value == "WARNING") _value = "warning"
         else if (value == "CRITICAL") _value = "error"
         else _value = "danger"
+        
+        const displayValue = formatValue(label, value);
+        
         return (
             <div className="status-item" key={label}>
                 {iconForLabel(label)}
                 <span className="label">{label.toUpperCase()}:</span>{' '}
-                <span className={`health-badge ${_value}`}>{value}</span>
+                <span className={`health-badge ${_value}`}>{displayValue}</span>
             </div>
         );
     };

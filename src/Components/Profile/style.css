@@ -1,15 +1,14 @@
 .profile-main {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
 }
 
-.profile-content{
+.profile-content {
     margin-left: 10px;
 }
 
-.profile-main .profile-content .user-name{
+.profile-main .profile-content .user-name {
     margin: 0;
     font-size: 14px;
     font-weight: 600;
@@ -17,7 +16,8 @@
     letter-spacing: 0.3px;
     color: #00529C;
 }
-.profile-main .profile-content .user-email{
+
+.profile-main .profile-content .user-email {
     margin: 4px 0 0 0;
     font-size: 12px;
     opacity: 0.9;

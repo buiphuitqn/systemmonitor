@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import './style.css';
 import { Table, Card, Modal, Tag, Button } from "antd";
-import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, ClearOutlined } from "@ant-design/icons";
+import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, UpOutlined } from "@ant-design/icons";
 import ServerCard from '../../Components/ServerCard';
 import ServerDetail from '../../Components/ServerDetail';
 import Context from "Data/Context";
@@ -94,16 +94,30 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
         setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
+    const countServers = (node) => {
+        let count = node.lst_Servers ? node.lst_Servers.length : 0;
+        if (node.children && node.children.length > 0) {
+            node.children.forEach(child => {
+                count += countServers(child);
+            });
+        }
+        return count;
+    };
+
     return nodes.map((item) => {
         const hasChildren = item.children && item.children.length > 0;
         const isCollapsed = collapsed[item.id];
+        const serverCount = countServers(item);
 
         return (
             <div key={item.id} style={{ marginLeft: level * 24, marginBottom: 8 }}>
                 <Card
                     size={level > 0 ? "small" : "default"}
                     style={{
+                        border: '1px solid #e5e7eb',
                         borderLeft: `4px solid ${colorSet.border}`,
+                        borderRadius: 8,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
                     }}
                     title={
                         <div className="card-title-main">
@@ -111,6 +125,16 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
                             <p style={{ color: colorSet.border }}>
                                 <Tag color={colorSet.border} style={{ marginRight: 8 }}>Cấp {level}</Tag>
                                 {item.tenDonVi}
+                                <span style={{
+                                    marginLeft: 8,
+                                    fontSize: '13px',
+                                    fontWeight: 'normal',
+                                    background: '#f3f4f6',
+                                    padding: '2px 8px',
+                                    borderRadius: '12px'
+                                }}>
+                                    {serverCount} servers
+                                </span>
                             </p>
                             {hasChildren && (
                                 <Button
@@ -145,6 +169,7 @@ const ContentComponent = () => {
     const { openModal, setOpenModal, serverInfo } = React.useContext(Context);
     const dispatch = useDispatch();
     const [logData, setLogData] = useState([]);
+    const [showLog, setShowLog] = useState(false);
 
     const { response: donViList, loading } = useSelector(
         (state) => state.common
@@ -197,8 +222,11 @@ const ContentComponent = () => {
                     <DatabaseOutlined className="log-panel-icon" />
                     <span className="log-panel-title">System Logs</span>
                     <Tag color="blue" style={{ marginLeft: 'auto' }}>{logData.length} entries</Tag>
+                    <Button className="log-panel-button" onClick={() => setShowLog(!showLog)} >
+                        {showLog ? <UpOutlined /> : <DownOutlined />}
+                    </Button>
                 </div>
-                <Table
+                {showLog && <Table
                     columns={columns}
                     dataSource={logData}
                     pagination={false}
@@ -206,7 +234,7 @@ const ContentComponent = () => {
                     scroll={{ y: 140 }}
                     size="small"
                     className="log-table"
-                />
+                />}
             </div>
             <Modal
                 footer={null}

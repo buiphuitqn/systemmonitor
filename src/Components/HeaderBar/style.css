@@ -36,6 +36,11 @@
      padding: 10px;
  }
 
+ .header-left p {
+     font-family: 'Tahoma';
+     margin: 0;
+ }
+
  .logo-image {
      height: 20px !important;
      width: auto !important;
@@ -146,6 +151,7 @@
          opacity: 0;
          transform: translateY(-16px);
      }
+
      to {
          opacity: 1;
          transform: translateY(0);
@@ -247,6 +253,7 @@
          opacity: 0;
          transform: translateX(-16px);
      }
+
      to {
          opacity: 1;
          transform: translateX(0);
@@ -357,22 +364,22 @@
 
  /* ==================== USER DROPDOWN ==================== */
  .user-dropdown {
-    padding: 0 !important;
-    border: 1px solid #e8e8e8;
-    border-radius: 10px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
-    min-width: 340px;
-    margin-top: 10px;
-    overflow: hidden;
+     padding: 0 !important;
+     border: 1px solid #e8e8e8;
+     border-radius: 10px;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+     min-width: 340px;
+     margin-top: 10px;
+     overflow: hidden;
  }
 
  .user-header {
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-    padding: 18px 16px;
-    border-bottom: none;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     padding: 18px 16px;
+     border-bottom: none;
+     display: flex;
+     align-items: center;
+     gap: 14px;
  }
 
  .user-avatar {
@@ -384,86 +391,86 @@
  }
 
  .user-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+     display: flex;
+     flex-direction: column;
+     gap: 4px;
  }
 
  .user-name {
-    margin: 0;
-    color: #fff;
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 0.2px;
+     margin: 0;
+     color: #fff;
+     font-weight: 600;
+     font-size: 15px;
+     letter-spacing: 0.2px;
  }
 
  .user-email {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 12px;
+     margin: 0;
+     color: rgba(255, 255, 255, 0.85);
+     font-size: 12px;
  }
 
  .dropdown-body {
-    padding: 8px 0;
+     padding: 8px 0;
  }
 
  .dropdown-menu-item {
-    padding: 0px 16px;
-    border: none;
-    color: #404040;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 14px;
-    font-weight: 500;
-    display: flex !important;
-    align-items: center;
-    gap: 12px;
-    margin: 0;
-    text-decoration: none;
+     padding: 0px 16px;
+     border: none;
+     color: #404040;
+     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     font-size: 14px;
+     font-weight: 500;
+     display: flex !important;
+     align-items: center;
+     gap: 12px;
+     margin: 0;
+     text-decoration: none;
  }
 
  .dropdown-menu-item:hover {
-    background-color: #f0f5ff;
-    color: #0066cc;
-    padding-left: 20px;
+     background-color: #f0f5ff;
+     color: #0066cc;
+     padding-left: 20px;
  }
 
  .dropdown-menu-item i {
-    font-size: 16px;
-    width: 18px;
-    text-align: center;
-    color: inherit;
+     font-size: 16px;
+     width: 18px;
+     text-align: center;
+     color: inherit;
  }
 
  .logout-section {
-    padding: 10px 8px;
-    margin: 0;
+     padding: 10px 8px;
+     margin: 0;
  }
 
  .logout-button {
-    width: 100%;
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 600;
-    padding: 11px 15px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    letter-spacing: 0.3px;
+     width: 100%;
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     border: none;
+     border-radius: 8px;
+     color: #fff;
+     font-weight: 600;
+     padding: 11px 15px;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     font-size: 14px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     letter-spacing: 0.3px;
  }
 
  .logout-button:hover {
-    background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.3);
+     background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+     transform: translateY(-2px);
+     box-shadow: 0 6px 16px rgba(0, 102, 204, 0.3);
  }
 
  .logout-button:active {
-    transform: translateY(0);
+     transform: translateY(0);
  }
 
  /* ==================== USER DROPDOWN ==================== */
@@ -612,18 +619,20 @@
      justify-content: center;
      width: 16px;
  }
- .app-title{
+
+ .app-title {
      font-size: 18px;
-     letter-spacing: 0.4px; 
+     letter-spacing: 0.4px;
      margin-left: 10px;
  }
+
  .app-title p {
-    margin: 0;
-    font-family: Tahoma;
-    color: #262626;
-    font-size: 18px;
-    line-height: 21px;
-    margin: 0px 0px 9px;
+     margin: 0;
+     font-family: Tahoma;
+     color: #262626;
+     font-size: 18px;
+     line-height: 21px;
+     margin: 0px 0px 9px;
  }
 
  /* ==================== RESPONSIVE DESIGN ==================== */
@@ -636,6 +645,7 @@
      .submenu {
          min-width: 200px;
      }
+
      .nav-link {
          font-size: 14px;
      }
@@ -645,6 +655,7 @@
      .headerbutton {
          padding: 0 20px;
      }
+
      .submenu {
          min-width: 180px;
          font-size: 10px !important;
@@ -670,6 +681,7 @@
          padding: 0 15px;
          height: 60px;
      }
+
      .submenu {
          min-width: 160px;
          font-size: 10px !important;
@@ -699,18 +711,19 @@
          padding: 0 10px;
          height: 56px;
      }
+
      .submenu {
          min-width: 140px;
-         
+
      }
+
      .submenu-link {
          font-size: 10px !important;
-      }
+     }
 
-      .nav-item-wrapper
-      {
-          font-size: 10px !important;
-      }
+     .nav-item-wrapper {
+         font-size: 10px !important;
+     }
 
      /* .header-nav {
          display: none;

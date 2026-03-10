@@ -6,8 +6,10 @@
 }
 
 .vaitro-main .vaitro-header p {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
+    color: #00529c;
+    font-weight: 400;
 }
 
 .vaitro-main .vaitro-search {
@@ -16,6 +18,7 @@
     padding: 20px;
     margin-bottom: 20px;
 }
+
 .vaitro-main .vaitro-content {
     background-color: white;
     border-radius: 10px;

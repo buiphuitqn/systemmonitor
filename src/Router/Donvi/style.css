@@ -6,8 +6,10 @@
 }
 
 .donvi-main .donvi-header p {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
+    color: #00529c;
+    font-weight: 400;
 }
 
 .donvi-main .donvi-search {
@@ -16,6 +18,7 @@
     padding: 20px;
     margin-bottom: 20px;
 }
+
 .donvi-main .donvi-content {
     background-color: white;
     border-radius: 10px;
@@ -27,27 +30,31 @@
     background-color: #f0f5ff;
     font-weight: 600;
 }
-.donvi-level-0:hover > td {
+
+.donvi-level-0:hover>td {
     background-color: #d6e4ff !important;
 }
 
 .donvi-level-1 {
     background-color: #f6ffed;
 }
-.donvi-level-1:hover > td {
+
+.donvi-level-1:hover>td {
     background-color: #d9f7be !important;
 }
 
 .donvi-level-2 {
     background-color: #fff7e6;
 }
-.donvi-level-2:hover > td {
+
+.donvi-level-2:hover>td {
     background-color: #ffe7ba !important;
 }
 
 .donvi-level-3 {
     background-color: #f9f0ff;
 }
-.donvi-level-3:hover > td {
+
+.donvi-level-3:hover>td {
     background-color: #efdbff !important;
 }

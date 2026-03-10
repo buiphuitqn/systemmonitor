@@ -7,18 +7,20 @@ import {
     MenuFoldOutlined,
     HomeOutlined,
     UserOutlined,
-    DownOutlined,
     SettingOutlined,
     ShareAltOutlined,
     LockOutlined,
     LogoutOutlined,
+    QuestionCircleOutlined,
+    ReadOutlined
 } from "@ant-design/icons";
-import { removeAllLocalStorage, logOut } from '../../util/Commons'
-import logo from '../../assets/images/logo-white.png';
+import { getLocalStorage, logOut } from '../../util/Commons'
+import logo from '../../assets/images/logo.png';
 import { Image, Menu } from "antd";
 import Context from "Data/Context";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Profile from "../Profile";
 
 
 const { Header, Content } = Layout;
@@ -67,9 +69,15 @@ const SiderBar = () => {
     const navigate = useNavigate();
     const { collapsed, setCollapsed } = React.useContext(Context);
     const [activeMenu, setActiveMenu] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
     const { response: menuList, loading } = useSelector(
         (state) => state.common
     );
+
+    useEffect(() => {
+        const info = getLocalStorage('userInfo');
+        if (info) setUserInfo(info);
+    }, []);
     useEffect(() => {
         if (menuList["menuList"]) {
             const tree = buildMenuTree(menuList["menuList"]);
@@ -88,32 +96,25 @@ const SiderBar = () => {
         navigate(url);
     };
     return (
-        <Layout>
+        <Layout className="sider-layout-container">
             <Header
-                className="headerbutton site-layout-background"
-                style={{
-                    padding: 0,
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 1000,
-                }}
+                className="headerbutton site-layout-background sider-header"
             >
-                {/* Logo and Title Section */}
                 <div className="header-left">
                     <button className="btn-header-sider" onClick={() => setCollapsed(!collapsed)}>
                         {!collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                     </button>
-                    {!collapsed ? <img src={logo} alt="logo" className="img-header-sider" /> : null}
+                    {!collapsed ? <p>SYSTEM MONITOR</p> : null}
                 </div>
             </Header>
-            <Content
-                style={{
-                    padding: 0,
-                    position: 'sticky',
-                }}
-            >
+
+            <Content className="sider-menu-content">
                 <Menu defaultSelectedKeys={['1']} mode="inline" items={activeMenu} onClick={handleClick} />
             </Content>
+
+            <div className="sider-footer">
+                <Profile collapsed={collapsed} />
+            </div>
         </Layout>
     )
 }

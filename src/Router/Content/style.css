@@ -1,6 +1,6 @@
 .content-main {
     background-color: #F5F5F5;
-    height: calc(100vh - 90px);
+    height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -327,21 +327,33 @@
 } */
 
 
-@media screen and (min-width: 1420px) {
+/* Default Grid Width (Lớn hơn 1920px - Màn 2K, 4K) */
+.car-gird {
+    width: 25% !important;
+    /* 5 cột cho màn siêu to */
+    padding: 5px !important;
+    box-shadow: none !important;
+}
+
+
+@media screen and (max-width: 1280px) {
     .car-gird {
-        width: 25% !important;
+        width: 33.3333% !important;
+        /* 3 cột - tránh làm tròn số dư */
     }
 }
 
 @media screen and (max-width: 900px) {
     .car-gird {
         width: 50% !important;
+        /* 2 cột */
     }
 }
 
 @media screen and (max-width: 600px) {
     .car-gird {
         width: 100% !important;
+        /* 1 cột */
     }
 }
 
@@ -359,9 +371,22 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 16px;
+    padding: 12px 20px;
     background: linear-gradient(135deg, #00529C 0%, #0073d1 100%);
     color: #fff;
+    min-height: 48px;
+}
+
+.log-panel-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+.log-panel-button:hover {
+    background-color: transparent !important;
+    border: none !important;
+    color: tomato !important;
 }
 
 .log-panel-icon {

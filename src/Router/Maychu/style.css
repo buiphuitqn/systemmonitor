@@ -6,8 +6,10 @@
 }
 
 .maychu-main .maychu-header p {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
+    color: #00529c;
+    font-weight: 400;
 }
 
 .maychu-main .maychu-search {
@@ -23,12 +25,14 @@
     padding-right: 20px;
 }
 
-.maychu-main .maychu-search .maychu-search-left .maychu-search-select{
+.maychu-main .maychu-search .maychu-search-left .maychu-search-select {
     width: 100%;
 }
+
 .maychu-main .maychu-search .maychu-search-right {
     width: 60%;
 }
+
 .maychu-main .maychu-content {
     background-color: white;
     border-radius: 10px;

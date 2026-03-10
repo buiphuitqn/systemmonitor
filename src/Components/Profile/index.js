@@ -41,7 +41,7 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 
-const Profile = () => {
+const Profile = ({ collapsed }) => {
     const [userdata, setUserData] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState(null);
@@ -133,10 +133,12 @@ const Profile = () => {
                         src={avatarUrl}
                         icon={!avatarUrl ? <UserOutlined /> : null}
                     />
-                    <div className="profile-content">
-                        <p className="user-name">{userdata.fullName ? userdata.fullName : "N/a"}</p>
-                        <p className="user-email">{userdata.email ? userdata.email : "N/a"}</p>
-                    </div>
+                    {!collapsed && (
+                        <div className="profile-content">
+                            <p className="user-name">{userdata.fullName ? userdata.fullName : "N/a"}</p>
+                            <p className="user-email">{userdata.email ? userdata.email : "N/a"}</p>
+                        </div>
+                    )}
                 </div>
             </Dropdown>
 
