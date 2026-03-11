@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import './style.css';
-import { Table, Card, Modal, Tag, Button } from "antd";
-import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, UpOutlined } from "@ant-design/icons";
+import { Table, Card, Modal, Tag, Button, Typography } from "antd";
+import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, UpOutlined, DashboardOutlined } from "@ant-design/icons";
 import ServerCard from '../../Components/ServerCard';
 import ServerDetail from '../../Components/ServerDetail';
 import Context from "Data/Context";
@@ -10,6 +10,7 @@ import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { usePermission } from "../../Hooks/usePermission";
 
+const { Title, Text } = Typography;
 const columns = [
     {
         title: "TT",
@@ -115,7 +116,6 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
                     size={level > 0 ? "small" : "default"}
                     style={{
                         border: '1px solid #e5e7eb',
-                        borderLeft: `4px solid ${colorSet.border}`,
                         borderRadius: 8,
                         boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
                     }}
@@ -238,7 +238,12 @@ const ContentComponent = () => {
             </div>
             <Modal
                 footer={null}
-                title={`Server Details`}
+                title={<div className="dashboard-header">
+                    <Title level={3} className="dashboard-title">
+                        <DashboardOutlined /> Tổng quan
+                    </Title>
+                    <Text type="secondary">Giám sát hệ thống máy chủ.</Text>
+                </div>}
                 style={{ top: 20 }}
                 width={{
                     xs: '95%',

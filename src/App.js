@@ -48,7 +48,7 @@ function App() {
           }
         >
           <Route path='home' element={<Homepage />} />
-          <Route path="dashboard" element={<ContentComponent />} />
+          <Route path="system" element={<ContentComponent />} />
           <Route path="he-thong/don-vi" element={<Donvi />} />
           <Route path="he-thong/may-chu" element={<Maychu />} />
           <Route path="he-thong/nguoi-dung" element={<Nguoidung />} />

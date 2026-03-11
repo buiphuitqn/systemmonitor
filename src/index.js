@@ -7,12 +7,15 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './appRedux/Redux/store';
+import { ConfigProvider } from 'antd';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <ConfigProvider theme={{ token: { fontFamily: 'Tahoma, sans-serif' } }}>
+        <App />
+      </ConfigProvider>
     </BrowserRouter>
   </Provider>
 );

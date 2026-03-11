@@ -322,6 +322,200 @@
     font-weight: 600;
 }
 
+.dashboard-container {
+    padding: 24px;
+    background-color: #f5f7fa;
+    min-height: calc(100vh - 60px);
+}
+
+.dashboard-header {
+    margin-bottom: 24px;
+}
+
+.dashboard-title {
+    color: #00529c !important;
+    font-weight: 400 !important;
+    margin-bottom: 4px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Stat Cards */
+.dashboard-stat-card {
+    border-radius: 12px;
+    border: none;
+    border-left: 5px solid transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-stat-card .ant-card-body {
+    padding: 24px;
+}
+
+.stat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.stat-value-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1;
+}
+
+.stat-unit {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.stat-subtext {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.stat-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+/* Chart Cards */
+.dashboard-charts-row {
+    margin-top: 24px;
+}
+
+.dashboard-chart-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.dashboard-chart-card .ant-card-head {
+    border-bottom: 1px solid #f3f4f6;
+    padding: 0 24px;
+    min-height: 60px;
+}
+
+.dashboard-chart-card .ant-card-head-title {
+    color: #111827;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.dashboard-chart-card .ant-card-body {
+    padding: 24px;
+}
+
+.chart-wrapper {
+    height: 350px;
+    width: 100%;
+}
+
+.chart-loading {
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Custom Recharts Tooltip */
+.custom-tooltip {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-time {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+    font-size: 13px;
+}
+
+.tooltip-item {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tooltip-name {
+    font-weight: 500;
+}
+
+/* Gauge Cards */
+.gauge-card .ant-card-body {
+    padding: 5px !important;
+}
+
+.gauge-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.gauge-label {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.gauge-value {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.gauge-unit {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
 /* .ant-table-tbody > tr > td {
   border-bottom: 1px solid #1f2a3a;
 } */
