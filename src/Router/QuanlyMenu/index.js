@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import './style.css';
+
 import { Button, Input, Table, Modal, Form, Select, Popconfirm, InputNumber, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { fetchStart } from "../../util/CallAPI";
 import { usePermission } from "../../Hooks/usePermission";
+import { useTranslation } from 'react-i18next';
 
 const { Search } = Input;
 
@@ -51,6 +52,7 @@ const buildTreeData = (list) => {
 
 const QuanlyMenu = () => {
     const { permission } = usePermission();
+    const { t } = useTranslation();
     const [data, setData] = useState([]);
     const [flatData, setFlatData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -60,37 +62,37 @@ const QuanlyMenu = () => {
 
     const columns = [
         {
-            title: 'STT',
+            title: t('unit.stt'),
             width: 60,
             align: 'center',
             render: (text, record, index) => index + 1
         },
         {
-            title: 'Tên menu',
+            title: t('menu_mgr.name'),
             dataIndex: 'tenMenu',
             render: (text, record) => {
                 const level = getLevel(record, flatData);
                 const colors = ['blue', 'green', 'orange', 'purple', 'cyan'];
                 return (
                     <span style={{ fontWeight: level === 0 ? 600 : 400 }}>
-                        <Tag color={colors[level % colors.length]} style={{ marginRight: 8 }}>Cấp {level}</Tag>
+                        <Tag color={colors[level % colors.length]} style={{ marginRight: 8 }}>{t('content.level')} {level}</Tag>
                         {text}
                     </span>
                 );
             }
         },
         {
-            title: 'URL',
+            title: t('menu_mgr.url'),
             dataIndex: 'url',
         },
         {
-            title: 'Icon',
+            title: t('menu_mgr.icon'),
             dataIndex: 'icon',
             width: 80,
             align: 'center',
         },
         {
-            title: 'Thứ tự',
+            title: t('menu_mgr.order'),
             dataIndex: 'thuTu',
             width: 80,
             align: 'center',
@@ -99,7 +101,7 @@ const QuanlyMenu = () => {
 
     if (permission.edit || permission.del) {
         columns.push({
-            title: 'Thao tác',
+            title: t('user.action'),
             align: 'center',
             width: 100,
             render: (text, record) => (
@@ -109,11 +111,11 @@ const QuanlyMenu = () => {
                     )}
                     {permission.del && (
                         <Popconfirm
-                            title="Xác nhận xóa"
-                            description="Bạn có chắc chắn muốn xóa menu này?"
+                            title={t('server.confirm_delete')}
+                            description={t('menu_mgr.confirm_delete_desc')}
                             onConfirm={() => handleDelete(record)}
-                            okText="Xóa"
-                            cancelText="Hủy"
+                            okText={t('server.delete')}
+                            cancelText={t('server.cancel')}
                         >
                             <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
                         </Popconfirm>
@@ -216,14 +218,14 @@ const QuanlyMenu = () => {
     return (
         <div className="quanlymenu-main">
             <div className="quanlymenu-header">
-                <p>Quản lý Menu</p>
+                <p>{t('menu_mgr.list')}</p>
                 {permission.add && (
                     <Button type="primary" onClick={() => {
                         setEditingRecord(null);
                         form.resetFields();
                         form.setFieldsValue({ ThuTu: 0 });
                         setOpenModal(true);
-                    }}>Thêm mới</Button>
+                    }}>{t('server.add')}</Button>
                 )}
             </div>
             <div className="quanlymenu-content">
@@ -238,7 +240,7 @@ const QuanlyMenu = () => {
                 />
             </div>
             <Modal
-                title={editingRecord ? "Chỉnh sửa menu" : "Thêm mới menu"}
+                title={editingRecord ? t('menu_mgr.edit_title') : t('menu_mgr.add_title')}
                 open={openModal}
                 footer={null}
                 onCancel={() => {
@@ -255,10 +257,10 @@ const QuanlyMenu = () => {
                 >
                     <Form.Item
                         name="Parent_Id"
-                        label="Menu cha"
+                        label={t('menu_mgr.parent')}
                     >
                         <Select
-                            placeholder="Không có (menu gốc)"
+                            placeholder={t('menu_mgr.no_parent')}
                             options={parentOptions}
                             allowClear
                             showSearch
@@ -269,21 +271,21 @@ const QuanlyMenu = () => {
                     </Form.Item>
                     <Form.Item
                         name="TenMenu"
-                        label="Tên menu"
+                        label={t('menu_mgr.name')}
                         rules={[{ required: true, message: 'Vui lòng nhập tên menu' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="Url"
-                        label="URL"
+                        label={t('menu_mgr.url')}
                         rules={[{ required: true, message: 'Vui lòng nhập URL' }]}
                     >
                         <Input placeholder="VD: he-thong/vai-tro" />
                     </Form.Item>
                     <Form.Item
                         name="Icon"
-                        label="Icon"
+                        label={t('menu_mgr.icon')}
                         rules={[{ required: true, message: 'Vui lòng chọn icon' }]}
                     >
                         <Select
@@ -293,13 +295,13 @@ const QuanlyMenu = () => {
                     </Form.Item>
                     <Form.Item
                         name="ThuTu"
-                        label="Thứ tự"
+                        label={t('menu_mgr.order')}
                     >
                         <InputNumber min={0} style={{ width: '100%' }} />
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            {editingRecord ? "Cập nhật" : "Thêm mới"}
+                            {editingRecord ? t('server.update') : t('server.add')}
                         </Button>
                     </Form.Item>
                 </Form>

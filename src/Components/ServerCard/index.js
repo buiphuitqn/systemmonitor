@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import './style.css';
+
 import { Card, Button, Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import Context from "Data/Context";

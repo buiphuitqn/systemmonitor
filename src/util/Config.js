@@ -2,9 +2,9 @@
  * DEV
  */
 // export const BASE_URL_API = "http://10.11.7.38:1516"; //
-// export const BASE_URL_API = "http://10.11.25.165:5095"; //
-// export const BASE_URL_API = "https://localhost:3006"; //
-export const BASE_URL_API = "https://localhost:5095"; //
+export const BASE_URL_API = "http://14.241.129.10:3308"; //
+// export const BASE_URL_API = "http://10.40.12.101:3308"; //
+// export const BASE_URL_API = "https://localhost:5095"; //
 // export const QTSX_URL_API = "https://localhost:3001"; //
 export const QTSX_URL_API = "https://qtsxautoapi.thacochulai.vn"; //
 export const KHO_URL_API = "http://113.161.6.185:82/";

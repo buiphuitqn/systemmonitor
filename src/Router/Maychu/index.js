@@ -1,9 +1,10 @@
 import React from "react";
-import './style.css';
+
 import { Button, Select, Input, Table, Modal, Form, Popconfirm, Switch } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { fetchStart } from "../../util/CallAPI";
 import { usePermission } from "../../Hooks/usePermission";
+import { useTranslation } from 'react-i18next';
 
 const { Search } = Input;
 
@@ -23,6 +24,7 @@ const styles = {
 
 const Maychu = () => {
     const { permission } = usePermission();
+    const { t } = useTranslation();
     const [options, setOptions] = React.useState([]);
     const [tableData, setTableData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
@@ -43,50 +45,50 @@ const Maychu = () => {
             render: (text, record, index) => index + 1
         },
         {
-            title: 'Mã máy chủ',
+            title: t('server.code'),
             dataIndex: 'maServer',
         },
         {
-            title: 'Tên máy chủ',
+            title: t('server.name'),
             dataIndex: 'tenServer',
         },
         {
-            title: 'Địa chỉ IP',
+            title: t('server.ip'),
             dataIndex: 'diaChiIP',
         },
         {
-            title: 'Username',
+            title: t('server.username'),
             dataIndex: 'username',
         },
         {
-            title: 'Phiên bản IDRAC',
+            title: t('server.idrac_version'),
             dataIndex: 'idracVersion',
             width: 150,
         },
         {
-            title: 'Trạng thái',
+            title: t('server.status'),
             dataIndex: 'isActive',
             width: 100,
             align: 'center',
             render: (isActive) => (
                 <span style={{ color: isActive ? '#52c41a' : '#ff4d4f', fontWeight: 600 }}>
-                    {isActive ? 'Hoạt động' : 'Ngừng'}
+                    {isActive ? t('server.active') : t('server.inactive')}
                 </span>
             )
         },
         (permission.edit || permission.del) && {
-            title: 'Hành động',
+            title: t('server.action'),
             align: 'center',
             width: 100,
             render: (text, record) => (
                 <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                     {permission.edit && <Button type="text" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record)} />}
                     {permission.del && <Popconfirm
-                        title="Xác nhận xóa"
-                        description="Bạn có chắc chắn muốn xóa máy chủ này?"
+                        title={t('server.confirm_delete')}
+                        description={t('server.confirm_delete_desc')}
                         onConfirm={() => handleDelete(record)}
-                        okText="Xóa"
-                        cancelText="Hủy"
+                        okText={t('server.delete')}
+                        cancelText={t('server.cancel')}
                     >
                         <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
                     </Popconfirm>}
@@ -229,7 +231,7 @@ const Maychu = () => {
     return (
         <div className="maychu-main">
             <div className="maychu-header">
-                <p>Danh sách máy chủ</p>
+                <p>{t('server.list')}</p>
                 {permission.add && <Button type="primary" onClick={() => {
                     setEditingRecord(null);
                     form.resetFields();
@@ -239,13 +241,13 @@ const Maychu = () => {
                         form.setFieldsValue({ IsActive: true });
                     }
                     setOpenModal(true);
-                }}>Thêm mới</Button>}
+                }}>{t('server.add')}</Button>}
             </div>
             <div className="maychu-search">
                 <div className="maychu-search-left">
-                    <p>Đơn vị</p>
+                    <p>{t('server.unit')}</p>
                     <Select
-                        placeholder="Chọn đơn vị"
+                        placeholder={t('server.select_unit')}
                         options={options}
                         value={selectedDonVi}
                         onChange={handleSelectDonVi}
@@ -257,9 +259,9 @@ const Maychu = () => {
                     />
                 </div>
                 <div className="maychu-search-right">
-                    <p>Từ khóa</p>
+                    <p>{t('server.keyword')}</p>
                     <Search
-                        placeholder="Nhập tên, IP hoặc mã server"
+                        placeholder={t('server.search_placeholder')}
                         value={searchText}
                         onChange={handleSearch}
                     />
@@ -269,7 +271,7 @@ const Maychu = () => {
                 <Table columns={columns} bordered dataSource={filteredData} loading={loading} rowKey="id" />
             </div>
             <Modal
-                title={editingRecord ? "Chỉnh sửa máy chủ" : "Thêm mới máy chủ"}
+                title={editingRecord ? t('server.edit_title') : t('server.add_title')}
                 open={openModal}
                 footer={null}
                 styles={styles}
@@ -288,11 +290,11 @@ const Maychu = () => {
                 >
                     <Form.Item
                         name="DonVi_Id"
-                        label="Đơn vị"
+                        label={t('server.unit')}
                         rules={[{ required: true, message: 'Vui lòng chọn đơn vị' }]}
                     >
                         <Select
-                            placeholder="Chọn đơn vị"
+                            placeholder={t('server.select_unit')}
                             options={options}
                             showSearch
                             filterOption={(input, option) =>
@@ -302,27 +304,27 @@ const Maychu = () => {
                     </Form.Item>
                     <Form.Item
                         name="MaServer"
-                        label="Mã máy chủ"
+                        label={t('server.code')}
                         rules={[{ required: true, message: 'Vui lòng nhập mã máy chủ' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="TenServer"
-                        label="Tên máy chủ"
+                        label={t('server.name')}
                         rules={[{ required: true, message: 'Vui lòng nhập tên máy chủ' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="DiaChiIP"
-                        label="Địa chỉ IP"
+                        label={t('server.ip')}
                     >
                         <Input placeholder="VD: 192.168.1.100" />
                     </Form.Item>
                     <Form.Item
                         name="Username"
-                        label="Username (iDRAC)"
+                        label={t('server.username')}
                     >
                         <Input />
                     </Form.Item>
@@ -334,20 +336,20 @@ const Maychu = () => {
                     </Form.Item>
                     <Form.Item
                         name="IDRACVersion"
-                        label="Phiên bản iDRAC"
+                        label={t('server.idrac_version')}
                     >
                         <Input placeholder="VD: iDRAC 9" />
                     </Form.Item>
                     <Form.Item
                         name="IsActive"
-                        label="Trạng thái"
+                        label={t('server.status')}
                         valuePropName="checked"
                     >
-                        <Switch checkedChildren="Hoạt động" unCheckedChildren="Ngừng" />
+                        <Switch checkedChildren={t('server.active')} unCheckedChildren={t('server.inactive')} />
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            {editingRecord ? "Cập nhật" : "Thêm mới"}
+                            {editingRecord ? t('server.update') : t('server.add')}
                         </Button>
                     </Form.Item>
                 </Form>

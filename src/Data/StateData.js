@@ -15,6 +15,7 @@ export default function useStateData() {
   const [openModal, setOpenModal] = React.useState(false);
   const [serverInfo, setServerInfo] = React.useState(null);
   const [collapsed, setCollapsed] = React.useState(false);
+  const [theme, setTheme] = React.useState(window.localStorage.getItem('theme') || 'light');
     const intialState = {
         login,
         setLogin,
@@ -24,7 +25,8 @@ export default function useStateData() {
         setLoading,
         openModal, setOpenModal,
         serverInfo, setServerInfo,
-        collapsed, setCollapsed
+        collapsed, setCollapsed,
+        theme, setTheme
     };
     return { intialState };
 }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import './style.css';
+
 import { Button, Input, Table, Modal, Form, Select, Switch, Popconfirm, Tag, Checkbox, message, Transfer } from "antd";
 import { EditOutlined, DeleteOutlined, ApartmentOutlined } from '@ant-design/icons';
 import { fetchStart } from "../../util/CallAPI";
 import { usePermission } from "../../Hooks/usePermission";
+import { useTranslation } from 'react-i18next';
 
 const { Search } = Input;
 
@@ -23,6 +24,7 @@ const styles = {
 
 const Nguoidung = () => {
     const { permission } = usePermission();
+    const { t } = useTranslation();
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -47,36 +49,36 @@ const Nguoidung = () => {
             render: (text, record, index) => index + 1
         },
         {
-            title: 'Tài khoản',
+            title: t('user.account'),
             dataIndex: 'userName',
         },
         {
-            title: 'Họ và tên',
+            title: t('user.fullname'),
             dataIndex: 'fullName',
         },
         {
-            title: 'Email',
+            title: t('user.email'),
             dataIndex: 'email',
         },
         {
-            title: 'Vai trò',
+            title: t('user.role'),
             dataIndex: 'roles',
             render: (roles) => roles?.map((role, i) => (
                 <Tag color="blue" key={i}>{role}</Tag>
             ))
         },
         {
-            title: 'Ghi chú',
+            title: t('user.note'),
             dataIndex: 'ghiChu',
         },
         {
-            title: 'Trạng thái',
+            title: t('user.status'),
             dataIndex: 'isActive',
             width: 100,
             align: 'center',
             render: (isActive) => (
                 <span style={{ color: isActive ? '#52c41a' : '#ff4d4f', fontWeight: 600 }}>
-                    {isActive ? 'Hoạt động' : 'Khóa'}
+                    {isActive ? t('user.active') : t('user.locked')}
                 </span>
             )
         }
@@ -84,7 +86,7 @@ const Nguoidung = () => {
 
     if (permission.edit || permission.del) {
         columns.push({
-            title: 'Thao tác',
+            title: t('user.action'),
             align: 'center',
             width: 140,
             render: (text, record) => (
@@ -92,7 +94,7 @@ const Nguoidung = () => {
                     {permission.edit && (
                         <Button type="text" shape="circle"
                             icon={<ApartmentOutlined />}
-                            title="Phân quyền đơn vị"
+                            title={t('user.unit_permission')}
                             style={{ color: '#1890ff' }}
                             onClick={() => handleOpenDvPerm(record)} />
                     )}
@@ -101,11 +103,11 @@ const Nguoidung = () => {
                     )}
                     {permission.del && (
                         <Popconfirm
-                            title="Xác nhận xóa"
-                            description="Bạn có chắc chắn muốn xóa người dùng này?"
+                            title={t('server.confirm_delete')}
+                            description={t('user.confirm_delete_desc')}
                             onConfirm={() => handleDelete(record)}
-                            okText="Xóa"
-                            cancelText="Hủy"
+                            okText={t('server.delete')}
+                            cancelText={t('server.cancel')}
                         >
                             <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
                         </Popconfirm>
@@ -270,21 +272,21 @@ const Nguoidung = () => {
     return (
         <div className="nguoidung-main">
             <div className="nguoidung-header">
-                <p>Danh sách người dùng</p>
+                <p>{t('user.list')}</p>
                 {permission.add && (
                     <Button type="primary" onClick={() => {
                         setEditingRecord(null);
                         form.resetFields();
                         form.setFieldsValue({ IsActive: true });
                         setOpenModal(true);
-                    }}>Thêm mới</Button>
+                    }}>{t('server.add')}</Button>
                 )}
             </div>
             <div className="nguoidung-search">
                 <div>
-                    <p>Từ khóa</p>
+                    <p>{t('server.keyword')}</p>
                     <Search
-                        placeholder="Nhập tài khoản, họ tên hoặc email"
+                        placeholder={t('user.search_placeholder')}
                         value={searchText}
                         onChange={handleSearch}
                     />
@@ -296,7 +298,7 @@ const Nguoidung = () => {
 
             {/* Add/Edit User Modal */}
             <Modal
-                title={editingRecord ? "Chỉnh sửa người dùng" : "Thêm mới người dùng"}
+                title={editingRecord ? t('user.edit_title') : t('user.add_title')}
                 open={openModal}
                 footer={null}
                 styles={styles}
@@ -308,30 +310,30 @@ const Nguoidung = () => {
                 }}
             >
                 <Form {...layout} form={form} name="user-form" onFinish={onFinish}>
-                    <Form.Item name="UserName" label="Tài khoản"
+                    <Form.Item name="UserName" label={t('user.account')}
                         rules={[{ required: true, message: 'Vui lòng nhập tài khoản' }]}>
                         <Input disabled={editingRecord !== null} />
                     </Form.Item>
-                    <Form.Item name="FullName" label="Họ và tên"
+                    <Form.Item name="FullName" label={t('user.fullname')}
                         rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="Email" label="Email"
+                    <Form.Item name="Email" label={t('user.email')}
                         rules={[{ type: 'email', message: 'Email không hợp lệ' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="RoleNames" label="Vai trò">
-                        <Select mode="multiple" placeholder="Chọn vai trò" options={roleOptions} />
+                    <Form.Item name="RoleNames" label={t('user.role')}>
+                        <Select mode="multiple" placeholder={t('user.select_role')} options={roleOptions} />
                     </Form.Item>
-                    <Form.Item name="GhiChu" label="Ghi chú">
+                    <Form.Item name="GhiChu" label={t('user.note')}>
                         <Input.TextArea rows={2} />
                     </Form.Item>
-                    <Form.Item name="IsActive" label="Trạng thái" valuePropName="checked">
-                        <Switch checkedChildren="Hoạt động" unCheckedChildren="Khóa" />
+                    <Form.Item name="IsActive" label={t('user.status')} valuePropName="checked">
+                        <Switch checkedChildren={t('user.active')} unCheckedChildren={t('user.locked')} />
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            {editingRecord ? "Cập nhật" : "Thêm mới"}
+                            {editingRecord ? t('server.update') : t('server.add')}
                         </Button>
                     </Form.Item>
                 </Form>
@@ -339,20 +341,20 @@ const Nguoidung = () => {
 
             {/* DonVi Permission Modal */}
             <Modal
-                title={`Phân quyền đơn vị — ${dvUser?.fullName || dvUser?.userName || ''}`}
+                title={`${t('user.unit_permission')} — ${dvUser?.fullName || dvUser?.userName || ''}`}
                 open={dvModalOpen}
                 width={600}
                 onCancel={() => setDvModalOpen(false)}
                 footer={[
-                    <Button key="cancel" onClick={() => setDvModalOpen(false)}>Hủy</Button>,
+                    <Button key="cancel" onClick={() => setDvModalOpen(false)}>{t('server.cancel')}</Button>,
                     <Button key="save" type="primary" loading={savingDv} onClick={handleSaveDvPerm}>
-                        Lưu phân quyền
+                        {t('user.save_permission')}
                     </Button>
                 ]}
             >
                 <Transfer
                     dataSource={allDonVi}
-                    titles={['Chưa phân quyền', 'Được phép xem']}
+                    titles={[t('user.unassigned'), t('user.allowed_to_view')]}
                     targetKeys={selectedDonViKeys}
                     onChange={setSelectedDonViKeys}
                     render={item => item.title}

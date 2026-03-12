@@ -1,3 +1,4 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ContextProvider from './Data/ContextProvider';
@@ -13,7 +14,8 @@ import Maychu from 'Router/Maychu';
 import Vaitro from 'Router/Vaitro';
 import QuanlyMenu from 'Router/QuanlyMenu';
 import bgImage from './assets/images/BG.jpg';
-
+import Context from './Data/Context';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 
 
 const RestrictedRoute = ({ token, children }) => {
@@ -32,11 +34,21 @@ const Homepage = () => {
   )
 }
 
-function App() {
-  const { intialState } = useStateData();
+function AppContent() {
+  const { theme } = React.useContext(Context);
   const info = getCookieValue('tokenInfo');
+  const currentTheme = theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm;
+
+  React.useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [theme]);
+
   return (
-    <ContextProvider value={intialState}>
+    <ConfigProvider theme={{ algorithm: currentTheme, token: { fontFamily: 'Tahoma, sans-serif' } }}>
       <Routes>
         <Route path='/signin' element={<SignIn />} />
         <Route
@@ -56,6 +68,15 @@ function App() {
           <Route path="he-thong/chuc-nang" element={<QuanlyMenu />} />
         </Route>
       </Routes>
+    </ConfigProvider>
+  );
+}
+
+function App() {
+  const { intialState } = useStateData();
+  return (
+    <ContextProvider value={intialState}>
+      <AppContent />
     </ContextProvider>
   );
 }

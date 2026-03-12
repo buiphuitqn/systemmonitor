@@ -1,3 +1,7 @@
+@import "./styles/dark-theme.css";
+@import "./styles/light-theme.css";
+@import "./styles/global.css";
+
 /* ::-webkit-scrollbar {
   width: 8px;
 }
@@ -13,7 +17,10 @@
 
 body {
   font-family: "Tahoma";
+  transition: background-color 0.3s, color 0.3s;
 }
+
+
 
 p {
   font-family: Tahoma;

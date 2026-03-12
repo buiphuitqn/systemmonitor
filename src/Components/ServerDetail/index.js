@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Descriptions, Tag, Table, Spin, Card, Input, Typography, Row, Col } from "antd";
 import ItemStatus from "../ItemStatus";
-import './style.css';
+
 import { fetchStart } from '../../util/CallAPI';
 import Context from "Data/Context";
 import Highlighter from 'react-highlight-words';
 import { DashboardOutlined, DatabaseOutlined, SafetyCertificateOutlined, FireOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { FaTelegramPlane, FaTemperatureHigh } from "react-icons/fa";
-
+import { useTranslation } from 'react-i18next';
 
 const { Title, Text } = Typography;
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, t }) => {
     if (active && payload && payload.length) {
         return (
             <div className="custom-tooltip">
-                <p className="tooltip-time">{`Thời gian: ${label}`}</p>
+                <p className="tooltip-time">{`${t('content.time')}: ${label}`}</p>
                 {payload.map((entry, index) => (
                     <p key={`item-${index}`} className="tooltip-item" style={{ color: entry.color }}>
                         <span className="tooltip-name">{entry.name}:</span> {entry.value} °C
@@ -28,7 +28,8 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const ServerDetail = () => {
-    const { serverInfo } = React.useContext(Context);
+    const { serverInfo, theme } = React.useContext(Context);
+    const { t } = useTranslation();
     const [dataCard, setDataCard] = React.useState([]);
     const [infoServer, setInfoServer] = React.useState({});
     const [dataTable, setDataTable] = React.useState([]);
@@ -39,12 +40,13 @@ const ServerDetail = () => {
 
     const columns = [
         {
-            title: "",
-            dataIndex: "index",
-            width: 30,
+            title: t('unit.stt', "STT"),
+            width: 50,
+            align: 'center',
+            render: (text, record, index) => index + 1
         },
         {
-            title: 'Serverity',
+            title: 'SEVERITY',
             dataIndex: 'serverity',
             width: 100,
             filters: [
@@ -211,7 +213,7 @@ const ServerDetail = () => {
                                                 stroke="none"
                                             >
                                                 <Cell key="cell-0" fill={color} />
-                                                <Cell key="cell-1" fill="#e5e7eb" />
+                                                <Cell key="cell-1" fill={theme === 'dark' ? '#303030' : '#e5e7eb'} />
                                             </Pie>
                                         </PieChart>
                                     </ResponsiveContainer>
@@ -237,7 +239,7 @@ const ServerDetail = () => {
             </Row>
             <Card style={{ marginTop: 20 }}>
                 <div style={{ fontSize: '14px' }}>
-                    <MenuFoldOutlined />Trạng thái các module
+                    <MenuFoldOutlined />{t('server_detail.module_status')}
                 </div>
                 <Card style={{ marginTop: 16 }}>
                     {
@@ -255,14 +257,14 @@ const ServerDetail = () => {
                 ) : (
                     <div className="chart-wrapper">
                         <div style={{ marginBottom: '10px', fontSize: '14px' }}>
-                            <FaTelegramPlane />Lịch sử Nhiệt độ Server (24h qua)
+                            <FaTelegramPlane />{t('server_detail.temp_history')}
                         </div>
                         <ResponsiveContainer width="100%" height={350}>
                             <LineChart data={historyData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} dx={-10} unit="°C" />
-                                <RechartsTooltip content={<CustomTooltip />} />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#303030' : '#e5e7eb'} />
+                                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? 'rgba(255,255,255,0.65)' : '#6b7280', fontSize: 12 }} dy={10} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? 'rgba(255,255,255,0.65)' : '#6b7280', fontSize: 12 }} dx={-10} unit="°C" />
+                                <RechartsTooltip content={<CustomTooltip t={t} />} />
                                 <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: '13px', paddingTop: '10px' }} />
 
                                 {historyData.length > 0 && Object.keys(historyData[0]).filter(k => k !== 'time').map((serverName, idx) => {
@@ -280,24 +282,24 @@ const ServerDetail = () => {
             <div className="log-panel" style={{ marginTop: 16 }}>
                 <div className="log-panel-header">
                     <DatabaseOutlined className="log-panel-icon" />
-                    <span className="log-panel-title">System Logs</span>
+                    <span className="log-panel-title">{t('content.system_logs')}</span>
                     <Input.Search
-                        placeholder="Search logs..."
+                        placeholder={t('server_detail.search_logs')}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         style={{ width: 250, marginLeft: 'auto' }}
                     />
-                    <Tag color="blue" style={{ marginLeft: 16 }}>{dataTable.filter(item => (item.logMessage || '').toLowerCase().includes(searchTerm.toLowerCase())).length} entries</Tag>
+                    <Tag color="blue" style={{ marginLeft: 16 }}>{dataTable.filter(item => (item.logMessage || '').toLowerCase().includes(searchTerm.toLowerCase())).length} {t('content.entries')}</Tag>
                 </div>
                 <Table
                     columns={columns}
                     dataSource={dataTable.filter(item => (item.logMessage || '').toLowerCase().includes(searchTerm.toLowerCase()))}
                     pagination={false}
                     className="table-server-detail log-table"
-                    rowKey="index"
+                    rowKey={(record, idx) => record.id || idx}
                     tableLayout="fixed"
                     size="small"
                     scroll={{ y: 240 }}
-                    virtual />
+                />
             </div>
         </div >
     );

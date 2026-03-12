@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
+import ContextProvider from "Data/Context";
+import { useTranslation } from "react-i18next";
 import { Dropdown, Avatar, Modal, Upload, message, Descriptions } from "antd";
 import { createStyles } from 'antd-style';
-import './style.css';
 import { logOut } from '../../util/Commons'
 import {
     LogoutOutlined,
     UserOutlined,
     CameraOutlined,
     LoadingOutlined,
+    MoonOutlined,
+    SunOutlined,
+    TranslationOutlined,
+    CheckOutlined
 } from "@ant-design/icons";
 import { getLocalStorage } from "../../util/Commons";
 import { fetchStart } from '../../util/CallAPI';
@@ -42,6 +47,8 @@ const getBase64 = (img, callback) => {
 };
 
 const Profile = ({ collapsed }) => {
+    const { theme, setTheme } = React.useContext(ContextProvider);
+    const { t, i18n } = useTranslation();
     const [userdata, setUserData] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState(null);
@@ -52,21 +59,86 @@ const Profile = ({ collapsed }) => {
     const items = [
         {
             key: '1',
-            label: 'Thông tin tài khoản',
+            label: t('profile.account_info', 'Thông tin tài khoản'),
             icon: <UserOutlined />,
         },
         {
+            key: 'theme_menu',
+            label: t('profile.theme', 'Giao diện'),
+            icon: theme === 'dark' ? <MoonOutlined /> : <SunOutlined />,
+            children: [
+                {
+                    key: 'theme_light',
+                    label: (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 100 }}>
+                            <span>{t('profile.light', 'Sáng')}</span>
+                            {theme === 'light' && <CheckOutlined style={{ color: '#1890ff' }} />}
+                        </div>
+                    ),
+                    icon: <SunOutlined />,
+                },
+                {
+                    key: 'theme_dark',
+                    label: (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 100 }}>
+                            <span>{t('profile.dark', 'Tối')}</span>
+                            {theme === 'dark' && <CheckOutlined style={{ color: '#1890ff' }} />}
+                        </div>
+                    ),
+                    icon: <MoonOutlined />,
+                }
+            ]
+        },
+        {
+            key: 'lang_menu',
+            label: t('profile.language', 'Ngôn ngữ'),
+            icon: <TranslationOutlined />,
+            children: [
+                {
+                    key: 'lang_vi',
+                    label: (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 100 }}>
+                            <span>{t('profile.vi', 'Tiếng Việt')}</span>
+                            {i18n.language.startsWith('vi') && <CheckOutlined style={{ color: '#1890ff' }} />}
+                        </div>
+                    ),
+                },
+                {
+                    key: 'lang_en',
+                    label: (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 100 }}>
+                            <span>{t('profile.en', 'Tiếng Anh')}</span>
+                            {i18n.language.startsWith('en') && <CheckOutlined style={{ color: '#1890ff' }} />}
+                        </div>
+                    ),
+                }
+            ]
+        },
+        {
+            type: 'divider',
+        },
+        {
             key: '2',
-            label: 'Logout',
+            label: t('profile.logout', 'Logout'),
             icon: <LogoutOutlined />,
+            danger: true
         },
     ];
 
     const onClick = ({ key }) => {
         if (key === '1') {
             setOpenModal(true);
-        }
-        if (key === '2') {
+        } else if (key === 'theme_light') {
+            setTheme('light');
+            window.localStorage.setItem('theme', 'light');
+        } else if (key === 'theme_dark') {
+            setTheme('dark');
+            window.localStorage.setItem('theme', 'dark');
+        } else if (key === 'lang_vi') {
+            i18n.changeLanguage('vi');
+        } else if (key === 'lang_en') {
+            i18n.changeLanguage('en');
+        } else if (key === '2') {
             logOut();
         }
     };

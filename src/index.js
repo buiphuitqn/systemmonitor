@@ -8,14 +8,13 @@ import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './appRedux/Redux/store';
 import { ConfigProvider } from 'antd';
+import './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <ConfigProvider theme={{ token: { fontFamily: 'Tahoma, sans-serif' } }}>
-        <App />
-      </ConfigProvider>
+      <App />
     </BrowserRouter>
   </Provider>
 );

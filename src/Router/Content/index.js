@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import './style.css';
+
 import { Table, Card, Modal, Tag, Button, Typography } from "antd";
 import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, UpOutlined, DashboardOutlined } from "@ant-design/icons";
 import ServerCard from '../../Components/ServerCard';
@@ -9,57 +9,9 @@ import { fetchStart as fetchStartApi } from '../../util/CallAPI';
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { usePermission } from "../../Hooks/usePermission";
+import { useTranslation } from 'react-i18next';
 
 const { Title, Text } = Typography;
-const columns = [
-    {
-        title: "TT",
-        width: 60,
-        align: "center",
-        render: (text, record, index) => index + 1
-    },
-    {
-        title: 'Tag',
-        dataIndex: 'tag',
-        width: 120,
-        render: (tag) => {
-            const colorMap = {
-                OK: "success",
-                Info: "blue",
-                Informational: "blue",
-                Warning: "gold",
-                Warn: "gold",
-                Error: "red",
-                Critical: "volcano",
-                Danger: "volcano",
-            };
-
-            return <Tag color={colorMap[tag] || "default"}>{tag}</Tag>;
-        },
-    },
-    {
-        title: 'Thời gian',
-        dataIndex: 'time',
-        key: 'time',
-        width: 200,
-    },
-    {
-        title: 'Tên máy chủ',
-        dataIndex: 'tenMayChu',
-        key: 'tenMayChu',
-    },
-    {
-        title: 'Thông tin nhật ký',
-        dataIndex: 'message',
-        key: 'message',
-    },
-];
-
-const styles = {
-    mask: {
-        backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,
-    }
-};
 
 const buildTreeData = (list) => {
     if (!list) return [];
@@ -86,6 +38,8 @@ const levelColors = [
 ];
 
 const RenderDonViTree = ({ nodes, level = 0 }) => {
+    const { theme } = React.useContext(Context);
+    const { t } = useTranslation();
     const [collapsed, setCollapsed] = React.useState({});
 
     if (!nodes || nodes.length === 0) return null;
@@ -115,25 +69,27 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
                 <Card
                     size={level > 0 ? "small" : "default"}
                     style={{
-                        border: '1px solid #e5e7eb',
+                        border: theme === 'dark' ? '1px solid #303030' : '1px solid #e5e7eb',
                         borderRadius: 8,
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                        backgroundColor: theme === 'dark' ? '#1f1f1f' : '#ffffff'
                     }}
                     title={
                         <div className="card-title-main">
                             {level === 0 ? <HomeTwoTone /> : <ApartmentOutlined style={{ color: colorSet.icon }} />}
                             <p style={{ color: colorSet.border }}>
-                                <Tag color={colorSet.border} style={{ marginRight: 8 }}>Cấp {level}</Tag>
+                                <Tag color={colorSet.border} style={{ marginRight: 8 }}>{t('content.level')} {level}</Tag>
                                 {item.tenDonVi}
                                 <span style={{
                                     marginLeft: 8,
                                     fontSize: '13px',
                                     fontWeight: 'normal',
-                                    background: '#f3f4f6',
+                                    background: theme === 'dark' ? '#141414' : '#f3f4f6',
                                     padding: '2px 8px',
-                                    borderRadius: '12px'
+                                    borderRadius: '12px',
+                                    color: theme === 'dark' ? 'rgba(255,255,255,0.65)' : 'inherit'
                                 }}>
-                                    {serverCount} servers
+                                    {serverCount} {t('content.servers')}
                                 </span>
                             </p>
                             {hasChildren && (
@@ -167,9 +123,54 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
 
 const ContentComponent = () => {
     const { openModal, setOpenModal, serverInfo } = React.useContext(Context);
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const [logData, setLogData] = useState([]);
     const [showLog, setShowLog] = useState(false);
+
+    const columns = [
+        {
+            title: "TT",
+            width: 60,
+            align: "center",
+            render: (text, record, index) => index + 1
+        },
+        {
+            title: 'Tag',
+            dataIndex: 'tag',
+            width: 120,
+            render: (tag) => {
+                const colorMap = {
+                    OK: "success",
+                    Info: "blue",
+                    Informational: "blue",
+                    Warning: "gold",
+                    Warn: "gold",
+                    Error: "red",
+                    Critical: "volcano",
+                    Danger: "volcano",
+                };
+    
+                return <Tag color={colorMap[tag] || "default"}>{tag}</Tag>;
+            },
+        },
+        {
+            title: t('content.time'),
+            dataIndex: 'time',
+            key: 'time',
+            width: 200,
+        },
+        {
+            title: t('content.server_name'),
+            dataIndex: 'tenMayChu',
+            key: 'tenMayChu',
+        },
+        {
+            title: t('content.log_info'),
+            dataIndex: 'message',
+            key: 'message',
+        },
+    ];
 
     const { response: donViList, loading } = useSelector(
         (state) => state.common
@@ -220,8 +221,8 @@ const ContentComponent = () => {
             <div className="log-panel">
                 <div className="log-panel-header">
                     <DatabaseOutlined className="log-panel-icon" />
-                    <span className="log-panel-title">System Logs</span>
-                    <Tag color="blue" style={{ marginLeft: 'auto' }}>{logData.length} entries</Tag>
+                    <span className="log-panel-title">{t('content.system_logs')}</span>
+                    <Tag color="blue" style={{ marginLeft: 'auto' }}>{logData.length} {t('content.entries')}</Tag>
                     <Button className="log-panel-button" onClick={() => setShowLog(!showLog)} >
                         {showLog ? <UpOutlined /> : <DownOutlined />}
                     </Button>
@@ -240,9 +241,9 @@ const ContentComponent = () => {
                 footer={null}
                 title={<div className="dashboard-header">
                     <Title level={3} className="dashboard-title">
-                        <DashboardOutlined /> Tổng quan
+                        <DashboardOutlined /> {t('content.overview')}
                     </Title>
-                    <Text type="secondary">Giám sát hệ thống máy chủ.</Text>
+                    <Text type="secondary">{t('content.monitor_desc')}</Text>
                 </div>}
                 style={{ top: 20 }}
                 width={{

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import './style.css';
+
 import { Button, Input, Table, Modal, Form, Popconfirm, Tag, Checkbox, message } from "antd";
 import { EditOutlined, DeleteOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import { fetchStart } from "../../util/CallAPI";
 import { usePermission } from "../../Hooks/usePermission";
+import { useTranslation } from 'react-i18next';
 
 const { Search } = Input;
 
@@ -50,6 +51,7 @@ const buildMenuTree = (list) => {
 
 const Vaitro = () => {
     const { permission } = usePermission();
+    const { t } = useTranslation();
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -68,31 +70,31 @@ const Vaitro = () => {
 
     const columns = [
         {
-            title: 'STT',
+            title: t('unit.stt'),
             width: 60,
             align: 'center',
             render: (text, record, index) => index + 1
         },
         {
-            title: 'Tên vai trò',
+            title: t('role.name'),
             dataIndex: 'name',
         },
         {
-            title: 'Mô tả',
+            title: t('role.description'),
             dataIndex: 'description',
         }
     ];
 
     if (permission.edit || permission.del) {
         columns.push({
-            title: 'Thao tác',
+            title: t('user.action'),
             align: 'center',
             width: 160,
             render: (text, record) => (
                 <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                     {permission.edit && (
                         <Button type="text" shape="circle" icon={<SafetyCertificateOutlined />}
-                            title="Phân quyền menu"
+                            title={t('role.menu_permission')}
                             style={{ color: '#1890ff' }}
                             onClick={() => handleOpenPerm(record)} />
                     )}
@@ -101,11 +103,11 @@ const Vaitro = () => {
                     )}
                     {permission.del && (
                         <Popconfirm
-                            title="Xác nhận xóa"
-                            description="Bạn có chắc chắn muốn xóa vai trò này?"
+                            title={t('server.confirm_delete')}
+                            description={t('role.confirm_delete_desc')}
                             onConfirm={() => handleDelete(record)}
-                            okText="Xóa"
-                            cancelText="Hủy"
+                            okText={t('server.delete')}
+                            cancelText={t('server.cancel')}
                         >
                             <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
                         </Popconfirm>
@@ -118,7 +120,7 @@ const Vaitro = () => {
     // Permission table columns
     const permColumns = [
         {
-            title: 'Menu',
+            title: t('role.menu'),
             dataIndex: 'tenMenu',
             render: (text, record) => {
                 const level = record.parent_Id ? 1 : 0;
@@ -129,19 +131,74 @@ const Vaitro = () => {
                 );
             }
         },
-        ...permLabels.map(p => ({
-            title: p.label,
+        {
+            title: t('role.perm_view'),
             align: 'center',
             width: 70,
             render: (text, record) => (
                 <Checkbox
-                    checked={permData[record.id]?.[p.key] || false}
-                    onChange={(e) => handlePermChange(record.id, p.key, e.target.checked)}
+                    checked={permData[record.id]?.['view'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'view', e.target.checked)}
                 />
             )
-        })),
+        },
         {
-            title: 'Tất cả',
+            title: t('role.perm_add'),
+            align: 'center',
+            width: 70,
+            render: (text, record) => (
+                <Checkbox
+                    checked={permData[record.id]?.['add'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'add', e.target.checked)}
+                />
+            )
+        },
+        {
+            title: t('role.perm_edit'),
+            align: 'center',
+            width: 70,
+            render: (text, record) => (
+                <Checkbox
+                    checked={permData[record.id]?.['edit'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'edit', e.target.checked)}
+                />
+            )
+        },
+        {
+            title: t('role.perm_del'),
+            align: 'center',
+            width: 70,
+            render: (text, record) => (
+                <Checkbox
+                    checked={permData[record.id]?.['del'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'del', e.target.checked)}
+                />
+            )
+        },
+        {
+            title: t('role.perm_cof'),
+            align: 'center',
+            width: 70,
+            render: (text, record) => (
+                <Checkbox
+                    checked={permData[record.id]?.['cof'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'cof', e.target.checked)}
+                />
+            )
+        },
+        {
+            title: t('role.perm_print'),
+            align: 'center',
+            width: 70,
+            render: (text, record) => (
+                <Checkbox
+                    checked={permData[record.id]?.['print'] || false}
+                    onChange={(e) => handlePermChange(record.id, 'print', e.target.checked)}
+                />
+            )
+        },
+        {
+            title: t('role.perm_all'),
             align: 'center',
             width: 70,
             render: (text, record) => {
@@ -312,7 +369,7 @@ const Vaitro = () => {
             }
         }).then((res) => {
             if (res.status === 200) {
-                message.success("Lưu phân quyền thành công!");
+                message.success(t('role.save_success'));
                 setPermModalOpen(false);
             }
         }).finally(() => setSavingPerm(false));
@@ -325,20 +382,20 @@ const Vaitro = () => {
     return (
         <div className="vaitro-main">
             <div className="vaitro-header">
-                <p>Quản lý vai trò</p>
+                <p>{t('role.list')}</p>
                 {permission.add && (
                     <Button type="primary" onClick={() => {
                         setEditingRecord(null);
                         form.resetFields();
                         setOpenModal(true);
-                    }}>Thêm mới</Button>
+                    }}>{t('server.add')}</Button>
                 )}
             </div>
             <div className="vaitro-search">
                 <div>
-                    <p>Từ khóa</p>
+                    <p>{t('server.keyword')}</p>
                     <Search
-                        placeholder="Nhập tên vai trò hoặc mô tả"
+                        placeholder={t('role.search_placeholder')}
                         value={searchText}
                         onChange={handleSearch}
                     />
@@ -350,7 +407,7 @@ const Vaitro = () => {
 
             {/* Add/Edit Role Modal */}
             <Modal
-                title={editingRecord ? "Chỉnh sửa vai trò" : "Thêm mới vai trò"}
+                title={editingRecord ? t('role.edit_title') : t('role.add_title')}
                 open={openModal}
                 footer={null}
                 onCancel={() => {
@@ -360,16 +417,16 @@ const Vaitro = () => {
                 }}
             >
                 <Form {...layout} form={form} name="role-form" onFinish={onFinish}>
-                    <Form.Item name="Name" label="Tên vai trò"
+                    <Form.Item name="Name" label={t('role.name')}
                         rules={[{ required: true, message: 'Vui lòng nhập tên vai trò' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="Description" label="Mô tả">
+                    <Form.Item name="Description" label={t('role.description')}>
                         <Input.TextArea rows={3} />
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            {editingRecord ? "Cập nhật" : "Thêm mới"}
+                            {editingRecord ? t('server.update') : t('server.add')}
                         </Button>
                     </Form.Item>
                 </Form>
@@ -377,14 +434,14 @@ const Vaitro = () => {
 
             {/* Permission Modal */}
             <Modal
-                title={`Phân quyền menu — ${permRole?.name || ''}`}
+                title={`${t('role.menu_permission')} — ${permRole?.name || ''}`}
                 open={permModalOpen}
                 width={800}
                 onCancel={() => setPermModalOpen(false)}
                 footer={[
-                    <Button key="cancel" onClick={() => setPermModalOpen(false)}>Hủy</Button>,
+                    <Button key="cancel" onClick={() => setPermModalOpen(false)}>{t('server.cancel')}</Button>,
                     <Button key="save" type="primary" loading={savingPerm} onClick={handleSavePerm}>
-                        Lưu phân quyền
+                        {t('role.save_permission')}
                     </Button>
                 ]}
             >

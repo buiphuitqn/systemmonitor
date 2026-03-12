@@ -1,0 +1,10 @@
+/* ==================== LIGHT THEME ==================== */
+
+/* 
+This file will hold future CSS overrides specific to the light theme.
+Since light mode is mostly the default, it's currently empty but
+architecturally prepared for when specific light-theme overrides are needed.
+*/
+body.light-theme {
+    background-color: #f0f2f5;
+}

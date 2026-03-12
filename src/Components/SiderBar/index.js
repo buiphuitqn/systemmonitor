@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Layout, Avatar, Button } from "antd";
 import { Link } from 'react-router-dom';
-import './style.css';
+
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -21,6 +21,7 @@ import Context from "Data/Context";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Profile from "../Profile";
+import { useTranslation } from "react-i18next";
 
 
 const { Header, Content } = Layout;
@@ -39,12 +40,12 @@ const iconForLabel = label => {
 };
 
 
-const convertToAntMenu = (menus) => {
+const convertToAntMenu = (menus, t) => {
     return menus.map(m => ({
         key: "/" + m.url,
         icon: iconForLabel(m.icon),
-        label: m.tenMenu,
-        children: m.children?.length ? convertToAntMenu(m.children) : null
+        label: t(`menu.${m.tenMenu}`, m.tenMenu),
+        children: m.children?.length ? convertToAntMenu(m.children, t) : null
     }));
 };
 
@@ -67,6 +68,7 @@ const buildMenuTree = (data) => {
 
 const SiderBar = () => {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
     const { collapsed, setCollapsed } = React.useContext(Context);
     const [activeMenu, setActiveMenu] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
@@ -81,10 +83,10 @@ const SiderBar = () => {
     useEffect(() => {
         if (menuList["menuList"]) {
             const tree = buildMenuTree(menuList["menuList"]);
-            const antMenu = convertToAntMenu(tree);
+            const antMenu = convertToAntMenu(tree, t);
             setActiveMenu(antMenu);
         }
-    }, [menuList]);
+    }, [menuList, t, i18n.language]);
 
     const handleClick = (e) => {
         let url = e.key;

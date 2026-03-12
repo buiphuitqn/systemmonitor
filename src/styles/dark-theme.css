@@ -1,0 +1,111 @@
+/* ==================== DARK THEME ==================== */
+
+/* App.css (Body) */
+body.dark-theme {
+    background-color: #141414;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* SiderBar */
+body.dark-theme .sider-layout-container,
+body.dark-theme .ant-layout-sider {
+    background-color: #141414 !important;
+    border-right: 1px solid #303030;
+}
+body.dark-theme .sider-footer { border-top: 1px solid #303030; }
+body.dark-theme .beyond-logo-text,
+body.dark-theme .header-left p { color: rgba(255, 255, 255, 0.85); }
+body.dark-theme .btn-header-sider { color: rgba(255, 255, 255, 0.65); }
+body.dark-theme .btn-header-sider:hover { color: rgba(255, 255, 255, 0.85); }
+body.dark-theme .ant-menu-submenu-popup > .ant-menu { background-color: #1f1f1f !important; }
+body.dark-theme .ant-menu-submenu-popup .ant-menu-item { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .ant-menu-item-selected { background-color: #111a2c !important; }
+body.dark-theme .ant-menu-submenu-title:hover,
+body.dark-theme .ant-menu-item:hover,
+body.dark-theme .ant-menu-submenu-popup .ant-menu-item:hover { background-color: #303030 !important; }
+
+/* Dashboard Content */
+body.dark-theme .content-main,
+body.dark-theme .dashboard-container { background-color: #141414 !important; }
+body.dark-theme .filter-container { background: #1f1f1f !important; border-bottom: 2px solid #303030; }
+body.dark-theme .filter-label,
+body.dark-theme .filter-input { color: rgba(255, 255, 255, 0.85); }
+body.dark-theme .filter-input { background-color: #141414; border-color: #303030; }
+body.dark-theme .table-container { background-color: #1f1f1f; border-color: #303030; }
+body.dark-theme .dashboard-title { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .dashboard-stat-card,
+body.dark-theme .dashboard-chart-card,
+body.dark-theme .log-panel,
+body.dark-theme .custom-tooltip { background-color: #1f1f1f !important; }
+body.dark-theme .stat-title,
+body.dark-theme .stat-value,
+body.dark-theme .dashboard-chart-card .ant-card-head-title,
+body.dark-theme .tooltip-time,
+body.dark-theme .log-panel-title,
+body.dark-theme .table-cell { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .log-panel-header,
+body.dark-theme .table-header { background: #1f1f1f !important; border-bottom: 1px solid #303030; }
+body.dark-theme .table-row { border-bottom: 1px solid #303030; }
+body.dark-theme .table-row:hover { background-color: #111a2c; }
+body.dark-theme .log-table .ant-table { background: #141414 !important; }
+body.dark-theme .log-table .ant-table-thead>tr>th { background: #1f1f1f !important; color: rgba(255, 255, 255, 0.85) !important; border-bottom: 1px solid #303030; }
+body.dark-theme .log-table .ant-table-tbody>tr>td { border-bottom: 1px solid #303030; color: rgba(255, 255, 255, 0.65); }
+body.dark-theme .log-table .ant-table-tbody>tr:hover>td { background: #111a2c !important; }
+
+/* Route Pages */
+body.dark-theme .donvi-main .donvi-search,
+body.dark-theme .donvi-main .donvi-content,
+body.dark-theme .maychu-main .maychu-search,
+body.dark-theme .maychu-main .maychu-content,
+body.dark-theme .nguoidung-main .nguoidung-search,
+body.dark-theme .nguoidung-main .nguoidung-content,
+body.dark-theme .quanlymenu-main .quanlymenu-content,
+body.dark-theme .vaitro-main .vaitro-search,
+body.dark-theme .vaitro-main .vaitro-content { background-color: #1f1f1f !important; }
+
+body.dark-theme .donvi-main .donvi-header p,
+body.dark-theme .maychu-main .maychu-header p,
+body.dark-theme .nguoidung-main .nguoidung-header p,
+body.dark-theme .quanlymenu-main .quanlymenu-header p,
+body.dark-theme .vaitro-main .vaitro-header p { color: rgba(255, 255, 255, 0.85); }
+
+/* ServerDetail & ServerCard Components */
+body.dark-theme .table-server-detail { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border-color: rgba(255,255,255,0.1); }
+body.dark-theme .card-server-detail .ant-card,
+body.dark-theme .card-server-detail-ok,
+body.dark-theme .card-server-detail-nok { background-color: #1f1f1f !important; }
+body.dark-theme .card-server { background-color: #1f1f1f !important; color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .card-server .card-title { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .card-server .row-val { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .status-item { background: rgba(255, 255, 255, 0.05); }
+body.dark-theme .label { color: rgba(255, 255, 255, 0.65); }
+body.dark-theme .value { color: rgba(255, 255, 255, 0.85); background: rgba(255, 255, 255, 0.1); }
+body.dark-theme .status-icon { color: #a3a3a3; }
+
+/* ItemStatus */
+body.dark-theme .item-status-card { background-color: transparent !important; }
+body.dark-theme .item-status-card p { color: rgba(255, 255, 255, 0.85); }
+body.dark-theme .ant-descriptions-item-label { color: rgba(255, 255, 255, 0.65) !important; }
+body.dark-theme .ant-descriptions-item-content { color: rgba(255, 255, 255, 0.85) !important; }
+
+/* SignIn Page */
+body.dark-theme .signin-card { background: #1f1f1f !important; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+body.dark-theme .form-label { color: rgba(255, 255, 255, 0.85); }
+body.dark-theme .input-with-addon,
+body.dark-theme .form-input-standard.ant-input-affix-wrapper { background: #141414 !important; border-color: #303030 !important; }
+body.dark-theme .input-with-addon:hover,
+body.dark-theme .input-with-addon:focus-within,
+body.dark-theme .form-input-standard.ant-input-affix-wrapper:hover,
+body.dark-theme .form-input-standard.ant-input-affix-wrapper:focus,
+body.dark-theme .form-input-standard.ant-input-affix-wrapper-focused { border-color: #0052a3 !important; background: #1f1f1f !important; }
+body.dark-theme .addon-input,
+body.dark-theme .form-input-standard input { color: rgba(255, 255, 255, 0.85) !important; }
+body.dark-theme .addon-select { border-left-color: #303030 !important; }
+body.dark-theme .addon-select .ant-select-selection-item { color: #4fc3f7 !important; }
+
+/* Footer */
+body.dark-theme .footer-main {
+    background-color: #141414 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    border-top: 1px solid #303030;
+}

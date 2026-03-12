@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import './style.css';
+
 import { Button, Input, Modal, Table, Form, Upload, Image, Popconfirm, Select, Tag } from "antd";
 import { fetchStart } from '../../util/CallAPI';
 import { usePermission } from '../../Hooks/usePermission';
 import { PlusOutlined, LoadingOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { BASE_URL_API } from '../../util/Config';
+import { useTranslation } from 'react-i18next';
 
 
 const { Search } = Input;
@@ -30,6 +31,7 @@ const getBase64 = (img, callback) => {
 };
 const Donvi = () => {
     const { permission } = usePermission();
+    const { t } = useTranslation();
     const [data, setData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
     const [searchText, setSearchText] = React.useState('');
@@ -90,14 +92,14 @@ const Donvi = () => {
 
     const columns = [
         {
-            title: 'STT',
+            title: t('unit.stt'),
             dataIndex: 'stt',
             width: 10,
             align: 'center',
             render: (text, record, index) => index + 1
         },
         {
-            title: 'Tên đơn vị',
+            title: t('unit.name'),
             dataIndex: 'tenDonVi',
             render: (text, record) => {
                 const level = record.level || 0;
@@ -105,22 +107,22 @@ const Donvi = () => {
                 const tagColor = colors[level % colors.length];
                 return (
                     <span style={{ fontWeight: level === 0 ? 600 : 400 }}>
-                        <Tag color={tagColor} style={{ marginRight: 8 }}>Cấp {level}</Tag>
+                        <Tag color={tagColor} style={{ marginRight: 8 }}>{t('content.level')} {level}</Tag>
                         {text}
                     </span>
                 );
             }
         },
         {
-            title: 'Địa chỉ',
+            title: t('unit.address'),
             dataIndex: 'diaChi',
         },
         {
-            title: 'Tên đầy đủ',
+            title: t('unit.full_name'),
             dataIndex: 'tenDayDu',
         },
         {
-            title: 'Hình ảnh',
+            title: t('unit.image'),
             dataIndex: 'logoUrl',
             align: 'center',
             width: 120,
@@ -134,18 +136,18 @@ const Donvi = () => {
             ) : null
         },
         (permission.edit || permission.del) && {
-            title: 'Hành động',
+            title: t('server.action'),
             align: 'center',
             width: 100,
             render: (text, record) => (
                 <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                     {permission.edit && <Button type="text" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record)} />}
                     {permission.del && <Popconfirm
-                        title="Xác nhận xóa"
-                        description="Bạn có chắc chắn muốn xóa đơn vị này?"
+                        title={t('server.confirm_delete')}
+                        description={t('unit.confirm_delete_desc')}
                         onConfirm={() => handleDelete(record)}
-                        okText="Xóa"
-                        cancelText="Hủy"
+                        okText={t('server.delete')}
+                        cancelText={t('server.cancel')}
                     >
                         <Button type="text" danger shape="circle" icon={<DeleteOutlined />} />
                     </Popconfirm>}
@@ -267,7 +269,7 @@ const Donvi = () => {
     return (
         <div className="donvi-main">
             <div className="donvi-header">
-                <p>Danh sách đơn vị</p>
+                <p>{t('unit.list')}</p>
                 {permission.add && <Button type="primary" onClick={() => {
                     setEditingRecord(null);
                     form.resetFields();
@@ -275,13 +277,13 @@ const Donvi = () => {
                     setImageFile(null);
                     fetchParentList();
                     setOpenModelDonvi(true);
-                }}>Thêm mới</Button>}
+                }}>{t('server.add')}</Button>}
             </div>
             <div className="donvi-search">
                 <div>
-                    <p>Từ khóa</p>
+                    <p>{t('server.keyword')}</p>
                     <Search
-                        placeholder="Nhập tên, địa chỉ đơn vị"
+                        placeholder={t('unit.search_placeholder')}
                         value={searchText}
                         onChange={handleSearch}
                     />
@@ -299,7 +301,7 @@ const Donvi = () => {
                 />
             </div>
             <Modal
-                title={editingRecord ? "Chỉnh sửa đơn vị" : "Thêm mới đơn vị"}
+                title={editingRecord ? t('unit.edit_title') : t('unit.add_title')}
                 open={openModelDonvi}
                 footer={null}
                 styles={styles}
@@ -320,7 +322,7 @@ const Donvi = () => {
                 >
                     <Form.Item
                         name={['MaDonVi']}
-                        label="Mã đơn vị"
+                        label={t('unit.code')}
                         rules={[
                             {
                                 required: true,
@@ -331,7 +333,7 @@ const Donvi = () => {
                     </Form.Item>
                     <Form.Item
                         name={['TenDonVi']}
-                        label="Tên đơn vị"
+                        label={t('unit.name')}
                         rules={[
                             {
                                 required: true,
@@ -342,7 +344,7 @@ const Donvi = () => {
                     </Form.Item>
                     <Form.Item
                         name={['DiaChi']}
-                        label="Địa chỉ"
+                        label={t('unit.address')}
                         rules={[
                             {
                                 required: true,
@@ -353,7 +355,7 @@ const Donvi = () => {
                     </Form.Item>
                     <Form.Item
                         name={['TenDayDu']}
-                        label="Tên đầy đủ"
+                        label={t('unit.full_name')}
                         rules={[
                             {
                                 required: true,
@@ -364,11 +366,11 @@ const Donvi = () => {
                     </Form.Item>
                     <Form.Item
                         name={['Parent_Id']}
-                        label="Đơn vị cha"
+                        label={t('unit.parent')}
                     >
                         <Select
                             allowClear
-                            placeholder="Chọn đơn vị cha"
+                            placeholder={t('unit.select_parent')}
                             options={parentList
                                 .filter(item => !editingRecord || item.id !== editingRecord.id)
                                 .map(item => ({
@@ -382,7 +384,7 @@ const Donvi = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Hình ảnh"
+                        label={t('unit.image')}
                     >
                         <Upload
                             listType="picture-card"
