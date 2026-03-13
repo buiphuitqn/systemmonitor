@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Card, Button, Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -29,6 +30,7 @@ const stylesCardFn = info => {
 };
 
 const ServerCard = ({ Server_Id, MaServer, title, status }) => {
+    const navigate = useNavigate();
     const { setOpenModal, setServerInfo } = React.useContext(Context);
     const iconForLabel = label => {
         const key = label.toLowerCase();
@@ -100,8 +102,7 @@ const ServerCard = ({ Server_Id, MaServer, title, status }) => {
                     <InfoCircleOutlined
                         style={{ fontSize: 18, color: '#1890ff', cursor: 'pointer' }}
                         onClick={() => {
-                            setOpenModal(true);
-                            setServerInfo(Server_Id);
+                            navigate('/system/server', { state: { serverId: Server_Id } });
                         }}
                     />
                 </Tooltip>

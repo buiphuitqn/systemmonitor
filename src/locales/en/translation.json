@@ -34,7 +34,8 @@
     "monitor_desc": "Server system monitoring.",
     "time": "Time",
     "log_info": "Log Information",
-    "server_name": "Server Name"
+    "server_name": "Server Name",
+    "idrac_logs": "iDRAC Logs"
   },
   "server_detail": {
     "module_status": "Module Status",
@@ -132,5 +133,18 @@
     "unassigned": "Unassigned",
     "allowed_to_view": "Allowed to view",
     "select_role": "Select role"
+  },
+  "Logs": {
+    "STT": "No",
+    "SEVERITY": "SEVERITY",
+    "TIME": "Timestamp",
+    "MESSAGE": "Log Information"
+  },
+  "Modules": {
+    "STT": "No",
+    "ModuleName": "Module",
+    "Status": "Status",
+    "ValueMonitor": "Value",
+    "RecordedAt": "Recorded At"
   }
 }

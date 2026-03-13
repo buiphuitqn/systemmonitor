@@ -33,7 +33,8 @@
     "monitor_desc": "Giám sát hệ thống máy chủ.",
     "time": "Thời gian",
     "log_info": "Thông tin nhật ký",
-    "server_name": "Tên máy chủ"
+    "server_name": "Tên máy chủ",
+    "idrac_logs": "Nhật ký iDRAC"
   },
   "server_detail": {
     "module_status": "Trạng thái các module",
@@ -131,5 +132,18 @@
     "unassigned": "Chưa phân quyền",
     "allowed_to_view": "Được phép xem",
     "select_role": "Chọn vai trò"
+  },
+  "Logs": {
+    "STT": "STT",
+    "SEVERITY": "Trạng thái",
+    "TIME": "Thời gian",
+    "MESSAGE": "Thông tin nhật ký"
+  },
+  "Modules": {
+    "STT": "STT",
+    "ModuleName": "Linh kiện",
+    "Status": "Trạng thái",
+    "ValueMonitor": "Giá trị",
+    "RecordedAt": "Thời gian ghi nhận"
   }
 }

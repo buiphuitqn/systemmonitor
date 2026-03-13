@@ -13,6 +13,7 @@ import Nguoidung from 'Router/Nguoidung';
 import Maychu from 'Router/Maychu';
 import Vaitro from 'Router/Vaitro';
 import QuanlyMenu from 'Router/QuanlyMenu';
+import ServerDetail from './Components/ServerDetail';
 import bgImage from './assets/images/BG.jpg';
 import Context from './Data/Context';
 import { ConfigProvider, theme as antdTheme } from 'antd';
@@ -66,6 +67,7 @@ function AppContent() {
           <Route path="he-thong/nguoi-dung" element={<Nguoidung />} />
           <Route path="he-thong/vai-tro" element={<Vaitro />} />
           <Route path="he-thong/chuc-nang" element={<QuanlyMenu />} />
+          <Route path="system/server" element={<ServerDetail />} />
         </Route>
       </Routes>
     </ConfigProvider>

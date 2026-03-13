@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Layout, Avatar } from "antd";
 import { Link } from 'react-router-dom';
-import './style.css';
 import {
   UserOutlined,
   DownOutlined,

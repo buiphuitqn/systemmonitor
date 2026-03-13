@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Descriptions, Tag, Table, Spin, Card, Input, Typography, Row, Col } from "antd";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Descriptions, Tag, Table, Spin, Card, Input, Typography, Row, Col, Button } from "antd";
 import ItemStatus from "../ItemStatus";
 
 import { fetchStart } from '../../util/CallAPI';
@@ -9,6 +10,7 @@ import { DashboardOutlined, DatabaseOutlined, SafetyCertificateOutlined, FireOut
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { FaTelegramPlane, FaTemperatureHigh } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const CustomTooltip = ({ active, payload, label, t }) => {
@@ -28,15 +30,26 @@ const CustomTooltip = ({ active, payload, label, t }) => {
 };
 
 const ServerDetail = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const { serverInfo, theme } = React.useContext(Context);
+    const serverId = location.state?.serverId;
+    const activeServerId = serverId || serverInfo;
     const { t } = useTranslation();
     const [dataCard, setDataCard] = React.useState([]);
     const [infoServer, setInfoServer] = React.useState({});
     const [dataTable, setDataTable] = React.useState([]);
+    const [dataLogs, setDataLogs] = React.useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchLogs, setSearchLogs] = useState('');
     const [historyData, setHistoryData] = useState([]);
     const [currentTempData, setCurrentTempData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [logPagination, setLogPagination] = useState({
+        current: 1,
+        pageSize: 10,
+        total: 0
+    });
 
     const columns = [
         {
@@ -46,7 +59,7 @@ const ServerDetail = () => {
             render: (text, record, index) => index + 1
         },
         {
-            title: 'SEVERITY',
+            title: t('Logs.SEVERITY', "SEVERITY"),
             dataIndex: 'serverity',
             width: 100,
             filters: [
@@ -70,49 +83,119 @@ const ServerDetail = () => {
             },
         },
         {
-            title: 'TIME',
+            title: t('Logs.TIME', "TIME"),
             dataIndex: 'timestamp',
             key: 'time',
             width: 200,
             render: (timestamp) => timestamp ? new Date(timestamp.endsWith('Z') ? timestamp : timestamp + 'Z').toLocaleString('vi-VN') : '',
         },
         {
-            title: 'MESSAGE',
+            title: t('Logs.MESSAGE', "MESSAGE"),
             dataIndex: 'logMessage',
             key: 'message',
         },
     ];
 
+    const columnsModule = [
+        {
+            title: t('Modules.STT', "STT"),
+            width: 50,
+            align: 'center',
+            render: (text, record, index) => index + 1
+        },
+        {
+            title: t('Modules.ModuleName', "ModuleName"),
+            dataIndex: 'moduleName',
+        },
+        {
+            title: t('Modules.Status', "Status"),
+            dataIndex: 'status',
+            filters: [
+                { text: 'OK', value: 'OK' },
+                { text: 'Warning', value: 'Warning' },
+                { text: 'Error', value: 'Error' },
+                { text: 'Danger', value: 'Danger' },
+            ],
+            onFilter: (value, record) => record.status?.includes(value)
+        },
+        {
+            title: t('Modules.ValueMonitor', "ValueMonitor"),
+            dataIndex: 'valueMonitor',
+        },
+        {
+            title: t('Modules.RecordedAt', "RecordedAt"),
+            dataIndex: 'recordedAt',
+            key: 'time',
+            width: 200,
+            render: (timestamp) => timestamp ? new Date(timestamp.endsWith('Z') ? timestamp : timestamp + 'Z').toLocaleString('vi-VN') : '',
+        }
+    ];
+
+    const fetchHistoryLogs = useCallback((page = logPagination.current, pageSize = logPagination.pageSize, keyword = searchLogs) => {
+        if (!activeServerId) return;
+        fetchStart({
+            url: "/api/StatusModule/GetHistorybyServer",
+            method: "GET",
+            params: {
+                serverId: activeServerId,
+                page: page,
+                pageSize: pageSize,
+                keyword: keyword
+            },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    const resData = response.data;
+                    const logs = resData.data || [];
+                    const total = resData.totalRow || logs.length;
+
+                    setDataLogs(logs);
+                    setLogPagination(prev => ({
+                        ...prev,
+                        current: page,
+                        pageSize: pageSize,
+                        total: total
+                    }));
+                }
+            });
+    }, [activeServerId, searchLogs]);
+
     useEffect(() => {
+        if (!activeServerId) {
+            navigate('/system');
+            return;
+        }
+
+        fetchHistoryLogs(1, logPagination.pageSize, searchLogs);
+
         fetchStart({
             url: "/api/StatusModule/GetbyServerId",
             method: "GET",
-            params: { serverId: serverInfo },
+            params: { serverId: activeServerId },
         })
             .then((response) => {
                 if (response.status === 200) {
                     setDataCard(response.data);
                 }
             });
+
         fetchStart({
             url: "/api/InfoServer/GetInfoByServerId",
             method: "GET",
-            params: { serverId: serverInfo },
+            params: { serverId: activeServerId },
         })
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.data);
                     setInfoServer(response.data[0]);
                 }
             });
         fetchStart({
             url: "/api/IdracLog/GetbyServerId",
             method: "GET",
-            params: { serverId: serverInfo },
+            params: { serverId: activeServerId },
         })
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.data);
                     setDataTable(response.data);
                 }
             });
@@ -123,7 +206,7 @@ const ServerDetail = () => {
                 fetchStart({
                     url: '/api/StatusModule/GetCurrentTemperatures',
                     method: 'GET',
-                    params: { serverId: serverInfo },
+                    params: { serverId: activeServerId },
                 })
                     .then((response) => {
                         if (response.status === 200) {
@@ -135,12 +218,11 @@ const ServerDetail = () => {
                 fetchStart({
                     url: '/api/StatusModule/GetTemperatureHistory',
                     method: 'GET',
-                    params: { serverId: serverInfo },
+                    params: { serverId: activeServerId },
                 })
                     .then((response) => {
                         if (response.status === 200) {
                             setHistoryData(response.data);
-                            console.log(response.data);
                         }
                     });
             } catch (error) {
@@ -151,11 +233,22 @@ const ServerDetail = () => {
         };
 
         loadDashboardData();
-    }, [serverInfo]);
+    }, [activeServerId]);
 
 
     return (
-        <div>
+        <div style={{ padding: '24px' }}>
+            <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <Button
+                    icon={<ArrowLeftOutlined />}
+                    onClick={() => navigate('/system')}
+                >
+                    {t('common.back', 'Back')}
+                </Button>
+                <Title level={3} style={{ margin: 0 }}>
+                    <DashboardOutlined /> {t('content.overview')} - {infoServer.hostName || 'Server Detail'}
+                </Title>
+            </div>
             <Row gutter={[16, 16]}>
                 <Col span={12}>
                     <Descriptions
@@ -294,6 +387,40 @@ const ServerDetail = () => {
                     columns={columns}
                     dataSource={dataTable.filter(item => (item.logMessage || '').toLowerCase().includes(searchTerm.toLowerCase()))}
                     pagination={false}
+                    className="table-server-detail log-table"
+                    rowKey={(record, idx) => record.id || idx}
+                    tableLayout="fixed"
+                    size="small"
+                    scroll={{ y: 240 }}
+                />
+            </div>
+            <div className="log-panel" style={{ marginTop: 16 }}>
+                <div className="log-panel-header">
+                    <DatabaseOutlined className="log-panel-icon" />
+                    <span className="log-panel-title">{t('content.idrac_logs')}</span>
+                    <Input.Search
+                        placeholder={t('server_detail.search_idrac_logs', "Search Module Name...")}
+                        onSearch={(value) => {
+                            setSearchLogs(value);
+                            fetchHistoryLogs(1, logPagination.pageSize, value);
+                        }}
+                        style={{ width: 250, marginLeft: 'auto' }}
+                    />
+                    <Tag color="blue" style={{ marginLeft: 16 }}>{logPagination.total} {t('content.entries')}</Tag>
+                </div>
+                <Table
+                    columns={columnsModule}
+                    dataSource={dataLogs}
+                    pagination={{
+                        current: logPagination.current,
+                        pageSize: logPagination.pageSize,
+                        total: logPagination.total,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['10', '20', '50', '100'],
+                        onChange: (page, pageSize) => {
+                            fetchHistoryLogs(page, pageSize, searchLogs);
+                        }
+                    }}
                     className="table-server-detail log-table"
                     rowKey={(record, idx) => record.id || idx}
                     tableLayout="fixed"

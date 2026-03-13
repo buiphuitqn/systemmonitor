@@ -1422,3 +1422,1095 @@
     }
 }
 
+
+/* ==================== HEADER BAR STYLES ==================== */
+ .site-layout .site-layout-background {
+     background: #fff;
+     display: flex;
+ }
+
+ .ant-layout-sider-children {
+     background: #fff;
+     z-index: 1;
+ }
+
+ .ant-layout-header {
+     background: #fff;
+     display: flex;
+ }
+
+ .headerbutton {
+     background-color: #ffffff;
+     padding: 0 40px;
+     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+     position: relative;
+     z-index: 1000;
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap;
+     align-items: center;
+     justify-content: space-between;
+     height: 60px;
+     border-bottom: 1px solid #f0f0f0;
+ }
+
+ /* ==================== HEADER LAYOUT ==================== */
+ .header-left {
+     display: flex;
+     align-items: center;
+     flex-shrink: 0;
+     padding: 10px;
+ }
+
+ .header-left p {
+     font-family: 'Tahoma';
+     margin: 0;
+ }
+
+ .logo-image {
+     height: 20px !important;
+     width: auto !important;
+     object-fit: contain !important;
+ }
+
+ .logo-section {
+     text-decoration: none;
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     padding: 8px 0;
+     cursor: pointer;
+     transition: opacity 0.3s ease;
+ }
+
+ .logo-section:hover {
+     opacity: 0.8;
+ }
+
+ /* ==================== NAVIGATION MENU ==================== */
+ .header-nav {
+     display: flex;
+     align-items: center;
+     gap: 40px;
+     flex: 1;
+     margin-left: 50px;
+     position: relative;
+ }
+
+ .nav-item-wrapper {
+     position: relative;
+ }
+
+ .nav-link {
+     text-decoration: none;
+     color: #404040;
+     font-size: 15px;
+     font-weight: 500;
+     position: relative;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     padding: 8px 0;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     gap: 6px;
+     letter-spacing: 0.3px;
+     font-family: 'Tahoma';
+ }
+
+ .nav-link:hover {
+     color: #0066cc;
+ }
+
+ .nav-link::after {
+     content: "";
+     position: absolute;
+     bottom: -8px;
+     left: 0;
+     width: 0;
+     height: 3px;
+     background: linear-gradient(90deg, #0066cc, #0052a3);
+     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     border-radius: 1.5px;
+ }
+
+ .nav-link:hover::after {
+     width: 100%;
+ }
+
+ .nav-link.active {
+     color: #0066cc;
+     font-weight: 600;
+ }
+
+ .nav-link.active::after {
+     width: 100%;
+ }
+
+ .nav-chevron {
+     font-size: 12px;
+     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     display: none;
+ }
+
+ .nav-link.active .nav-chevron {
+     transform: rotate(180deg);
+ }
+
+ /* ==================== SUBMENU ==================== */
+ .submenu {
+     position: absolute;
+     top: calc(100% + 0px);
+     left: 0;
+     background: #ffffff;
+     border-radius: 10px;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+     min-width: 240px;
+     padding: 16px 0;
+     z-index: 1001;
+     animation: slideDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+     border: 1px solid #e8e8e8;
+     margin-top: 8px;
+ }
+
+ @keyframes slideDown {
+     from {
+         opacity: 0;
+         transform: translateY(-16px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .submenu-item-wrapper {
+     position: relative;
+ }
+
+ .submenu-item {
+     position: relative;
+     cursor: pointer;
+ }
+
+ .submenu-link {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 0px 20px;
+     color: #404040;
+     font-size: 14px;
+     font-weight: 500;
+     text-decoration: none;
+     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     position: relative;
+ }
+
+ .submenu-link::before {
+     content: "";
+     position: absolute;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     width: 4px;
+     background: linear-gradient(180deg, #0066cc, #0052a3);
+     transform: scaleY(0);
+     transform-origin: top;
+     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     border-radius: 0 2px 2px 0;
+ }
+
+ .submenu-item:hover .submenu-link {
+     color: #0066cc;
+     background-color: #f0f5ff;
+     padding-left: 24px;
+ }
+
+ .submenu-item:hover .submenu-link::before {
+     transform: scaleY(1);
+ }
+
+ .submenu-item.active .submenu-link {
+     color: #0066cc;
+     background-color: #f0f5ff;
+ }
+
+ .submenu-item.active .submenu-link::before {
+     transform: scaleY(1);
+ }
+
+ .submenu-chevron {
+     font-size: 12px;
+     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     margin-left: 12px;
+     flex-shrink: 0;
+     color: #999;
+     display: none;
+ }
+
+ .submenu-item:hover .submenu-chevron {
+     color: #0066cc;
+ }
+
+ .submenu-item.active .submenu-chevron {
+     transform: rotate(180deg);
+     color: #0066cc;
+ }
+
+ /* ==================== SUBSUBMENU ==================== */
+ .subsubmenu {
+     position: absolute;
+     top: 0;
+     left: 100%;
+     background: #ffffff;
+     border-radius: 10px;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+     min-width: 200px;
+     padding: 16px 0;
+     margin-left: 0px;
+     z-index: 1002;
+     animation: slideRight 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+     border: 1px solid #e8e8e8;
+     margin-left: 8px;
+ }
+
+ @keyframes slideRight {
+     from {
+         opacity: 0;
+         transform: translateX(-16px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ .subsubmenu-item {
+     position: relative;
+ }
+
+ .subsubmenu-link {
+     display: block;
+     padding: 0px 20px;
+     color: #404040;
+     font-size: 13px;
+     font-weight: 500;
+     text-decoration: none;
+     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     position: relative;
+ }
+
+ .subsubmenu-link::before {
+     content: "";
+     position: absolute;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     width: 4px;
+     background: #0066cc;
+     transform: scaleY(0);
+     transform-origin: top;
+     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     border-radius: 0 2px 2px 0;
+ }
+
+ .subsubmenu-item:hover .subsubmenu-link {
+     color: #0066cc;
+     background-color: #f0f5ff;
+     padding-left: 24px;
+ }
+
+ .subsubmenu-item:hover .subsubmenu-link::before {
+     transform: scaleY(1);
+ }
+
+ /* ==================== HEADER RIGHT (USER SECTION) ==================== */
+ .header-right {
+     display: flex;
+     align-items: center;
+     flex-shrink: 0;
+     margin: 0 24px;
+     gap: 16px;
+ }
+
+ .user-toggle {
+     background: transparent;
+     border: none;
+     padding: 6px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     transition: all 0.2s ease;
+     border-radius: 50%;
+ }
+
+ .user-toggle:hover {
+     background: #f5f5f5;
+     transform: scale(1.05);
+ }
+
+ .user-toggle::after {
+     display: none;
+ }
+
+ .user-toggle .ant-avatar {
+     border: 2px solid #0066cc;
+     box-shadow: 0 2px 8px rgba(0, 102, 204, 0.2);
+ }
+
+ /* ==================== CONTACT BUTTON ==================== */
+ .contact-button {
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     color: #ffffff;
+     border: none;
+     border-radius: 8px;
+     padding: 10px 28px;
+     font-size: 14px;
+     font-weight: 600;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     flex-shrink: 0;
+     letter-spacing: 0.3px;
+     box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+ }
+
+ .contact-button:hover,
+ .contact-button:focus {
+     background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+     color: #ffffff;
+     transform: translateY(-2px);
+     box-shadow: 0 8px 24px rgba(0, 102, 204, 0.4);
+ }
+
+ .contact-button:active {
+     transform: translateY(0);
+     box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+ }
+
+ /* ==================== USER DROPDOWN ==================== */
+ .user-dropdown {
+     padding: 0 !important;
+     border: 1px solid #e8e8e8;
+     border-radius: 10px;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+     min-width: 340px;
+     margin-top: 10px;
+     overflow: hidden;
+ }
+
+ .user-header {
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     padding: 18px 16px;
+     border-bottom: none;
+     display: flex;
+     align-items: center;
+     gap: 14px;
+ }
+
+ .user-avatar {
+     width: 48px;
+     height: 48px;
+     flex-shrink: 0;
+     border-radius: 50%;
+     border: 2px solid rgba(255, 255, 255, 0.3);
+ }
+
+ .user-info {
+     display: flex;
+     flex-direction: column;
+     gap: 4px;
+ }
+
+ .user-name {
+     margin: 0;
+     color: #fff;
+     font-weight: 600;
+     font-size: 15px;
+     letter-spacing: 0.2px;
+ }
+
+ .user-email {
+     margin: 0;
+     color: rgba(255, 255, 255, 0.85);
+     font-size: 12px;
+ }
+
+ .dropdown-body {
+     padding: 8px 0;
+ }
+
+ .dropdown-menu-item {
+     padding: 0px 16px;
+     border: none;
+     color: #404040;
+     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+     font-size: 14px;
+     font-weight: 500;
+     display: flex !important;
+     align-items: center;
+     gap: 12px;
+     margin: 0;
+     text-decoration: none;
+ }
+
+ .dropdown-menu-item:hover {
+     background-color: #f0f5ff;
+     color: #0066cc;
+     padding-left: 20px;
+ }
+
+ .dropdown-menu-item i {
+     font-size: 16px;
+     width: 18px;
+     text-align: center;
+     color: inherit;
+ }
+
+ .logout-section {
+     padding: 10px 8px;
+     margin: 0;
+ }
+
+ .logout-button {
+     width: 100%;
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     border: none;
+     border-radius: 8px;
+     color: #fff;
+     font-weight: 600;
+     padding: 11px 15px;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     font-size: 14px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     letter-spacing: 0.3px;
+ }
+
+ .logout-button:hover {
+     background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+     transform: translateY(-2px);
+     box-shadow: 0 6px 16px rgba(0, 102, 204, 0.3);
+ }
+
+ .logout-button:active {
+     transform: translateY(0);
+ }
+
+ /* ==================== USER DROPDOWN ==================== */
+ .user-dropdown-container {
+     position: relative;
+ }
+
+ .user-toggle-btn {
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 6px;
+     border-radius: 50%;
+     transition: all 0.3s ease;
+ }
+
+ .user-toggle-btn:hover {
+     background-color: #f0f5ff;
+     box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
+ }
+
+ .user-menu {
+     position: absolute;
+     top: 100%;
+     right: 0;
+     margin-top: 12px;
+     width: 320px;
+     background: #ffffff;
+     border-radius: 8px;
+     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+     border: 1px solid #f0f0f0;
+     animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+     z-index: 1001;
+     overflow: hidden;
+ }
+
+ .user-profile-header {
+     padding: 16px;
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     display: flex;
+     gap: 12px;
+     align-items: center;
+ }
+
+ .user-profile-header .ant-avatar {
+     flex-shrink: 0;
+     border: 2px solid rgba(255, 255, 255, 0.3);
+ }
+
+ .user-info {
+     flex: 1;
+     color: #ffffff;
+ }
+
+ .user-name {
+     margin: 0;
+     font-size: 14px;
+     font-weight: 600;
+     line-height: 1.4;
+     letter-spacing: 0.3px;
+ }
+
+ .user-email {
+     margin: 4px 0 0 0;
+     font-size: 12px;
+     opacity: 0.9;
+     line-height: 1.3;
+ }
+
+ .user-menu-divider {
+     height: 1px;
+     background: #e8e8e8;
+ }
+
+ .user-menu-items {
+     padding: 20px;
+     display: flex;
+     flex-direction: column;
+     gap: 8px;
+ }
+
+ .user-menu-item {
+     padding: 0px 12px;
+     color: #666666;
+     font-size: 14px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     transition: all 0.2s ease;
+     font-weight: 500;
+     letter-spacing: 0.2px;
+     background-color: #f5f5f5;
+     border-radius: 6px;
+     height: 40px;
+ }
+
+ .user-menu-item:hover {
+     background-color: #eeeeee;
+     color: #404040;
+ }
+
+ .user-menu-icon {
+     font-size: 14px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 16px;
+ }
+
+ .user-logout-btn {
+     width: calc(100% - 24px);
+     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+     color: #ffffff;
+     border: none;
+     font-size: 14px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 10px;
+     transition: all 0.3s ease;
+     font-weight: 600;
+     letter-spacing: 0.3px;
+     text-align: center;
+     border-radius: 6px;
+     margin: 12px;
+     height: 60px;
+ }
+
+ .user-logout-btn:hover {
+     background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+     transform: translateY(-2px);
+     box-shadow: 0 6px 16px rgba(0, 102, 204, 0.3);
+ }
+
+ .user-logout-btn:active {
+     transform: translateY(0);
+ }
+
+ .logout-icon {
+     font-size: 14px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 16px;
+ }
+
+ .app-title {
+     font-size: 18px;
+     letter-spacing: 0.4px;
+     margin-left: 10px;
+ }
+
+ .app-title p {
+     margin: 0;
+     font-family: Tahoma;
+     color: #262626;
+     font-size: 18px;
+     line-height: 21px;
+     margin: 0px 0px 9px;
+ }
+
+/* ==================== MAIN APP STYLES ==================== */
+.ant-layout-header {
+    box-shadow: 0 4px rgba(0, 0, 0, 0.08) !important;
+    border-right: none !important;
+}
+
+/* ==================== SIGNIN STYLES ==================== */
+.signin-container {
+  min-height: 100vh;
+  background-image: url(../assets/images/bg2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: overlay;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signin-content {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* ==================== SIGNIN HEADER ==================== */
+.signin-header {
+  margin-bottom: 10px;
+  animation: slideDown 0.6s ease-out;
+}
+
+.signin-logo {
+  font-size: 30px;
+  font-weight: 800;
+  color: #00529C;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: fantasy;
+}
+
+/* ==================== SIGNIN CARD ==================== */
+.signin-card {
+  background: #ffffff;
+  border-radius: 20px;
+  display: -webkit-inline-box;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.6s ease-out 0.2s both;
+}
+
+/* ==================== FORM STYLING ==================== */
+.signin-card .ant-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #00529C;
+  margin-bottom: 8px;
+  text-align: left;
+  letter-spacing: 0.3px;
+}
+
+.form-item-no-margin .ant-form-item {
+  margin-bottom: 0;
+}
+
+/* ==================== INPUT WITH ADDON (Username + Domain) ==================== */
+.input-with-addon {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fafafa;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 35px;
+}
+
+.input-with-addon:hover {
+  border-color: #0052a3;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 82, 163, 0.08);
+}
+
+.input-with-addon:focus-within {
+  border-color: #0052a3;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(0, 82, 163, 0.08);
+}
+
+.addon-input {
+  flex: 1;
+  min-width: 0;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  height: 40px !important;
+  font-size: 14px !important;
+  padding: 0 12px !important;
+  color: #333333 !important;
+}
+
+.addon-input:hover,
+.addon-input:focus,
+.addon-input:active {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.addon-input::placeholder {
+  color: #999999;
+}
+
+.addon-select {
+  flex-shrink: 0;
+  width: 140px !important;
+  border-left: 1px solid #d9d9d9 !important;
+  background: transparent !important;
+}
+
+.addon-select .ant-select-selector {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  height: 40px !important;
+  padding: 0 10px !important;
+}
+
+.addon-select .ant-select-selection-item {
+  line-height: 40px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #0052a3 !important;
+}
+
+.addon-select .ant-select-arrow {
+  color: #999999 !important;
+  font-size: 12px !important;
+}
+
+/* ==================== PASSWORD INPUT ==================== */
+.form-input-standard.ant-input-affix-wrapper {
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 6px !important;
+  background: #fafafa !important;
+  padding: 0 12px !important;
+  height: 35px !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.form-input-standard.ant-input-affix-wrapper:hover {
+  border-color: #0052a3 !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 82, 163, 0.08) !important;
+}
+
+.form-input-standard.ant-input-affix-wrapper:focus,
+.form-input-standard.ant-input-affix-wrapper-focused {
+  border-color: #0052a3 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 2px rgba(0, 82, 163, 0.08) !important;
+}
+
+.form-input-standard input {
+  background: transparent !important;
+  font-size: 14px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  color: #333333 !important;
+}
+
+.form-input-standard input::placeholder {
+  color: #999999 !important;
+}
+
+.form-input-standard .ant-input-password-icon {
+  color: #999999 !important;
+  transition: color 0.3s !important;
+  font-size: 14px !important;
+}
+
+.form-input-standard:hover .ant-input-password-icon {
+  color: #0052a3 !important;
+}
+
+/* ==================== FORM ACTIONS (Button + Forgot Password) ==================== */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 0;
+  margin-top: 28px;
+}
+
+.forgot-password-link {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #0052a3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.forgot-password-link:hover {
+  color: #003d7a;
+  text-decoration: underline;
+}
+
+.form-actions .ant-form-item {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* ==================== SIGNIN BUTTON ==================== */
+.signin-button {
+  width: 140px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background: #0052a3 !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0px !important;
+  box-shadow: 0 2px 8px rgba(0, 82, 163, 0.1) !important;
+  box-shadow: 0 6px 20px rgba(0, 82, 163, 0.25) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.signin-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.4s ease;
+}
+
+.signin-button:hover {
+  background: #003d7a !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 82, 163, 0.2) !important;
+}
+
+.signin-button:hover::before {
+  left: 100%;
+}
+
+.signin-button:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 6px rgba(0, 82, 163, 0.1) !important;
+}
+
+.signin-button:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+/* ==================== ANTD OVERRIDES ==================== */
+.ant-form-item-explain-error {
+  font-size: 12px !important;
+  margin-top: 6px !important;
+  color: #ff4d4f !important;
+  text-align: left !important;
+}
+
+.ant-input-affix-wrapper {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.ant-input-affix-wrapper-focused {
+  box-shadow: none !important;
+}
+
+.ant-select-dropdown {
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  padding: 6px !important;
+}
+
+.ant-select-item {
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  transition: all 0.2s ease !important;
+  color: #333333 !important;
+}
+
+.ant-select-item-option-selected {
+  background: rgba(0, 82, 163, 0.1) !important;
+  color: #0052a3 !important;
+  font-weight: 500 !important;
+}
+
+.ant-select-item-option-active {
+  background: rgba(0, 82, 163, 0.05) !important;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 768px) {
+  .signin-content {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+
+  .signin-header {
+    margin-bottom: 35px;
+  }
+
+  .signin-logo {
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+
+  .signin-card {
+    padding: 35px 25px;
+    border-radius: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-size: 13px;
+  }
+
+  .input-with-addon,
+  .form-input-standard.ant-input-affix-wrapper {
+    height: 46px !important;
+  }
+
+  .addon-input,
+  .form-input-standard input {
+    height: 46px !important;
+    line-height: 46px !important;
+    font-size: 14px !important;
+  }
+
+  .addon-select .ant-select-selection-item {
+    line-height: 46px !important;
+    font-size: 12px !important;
+  }
+
+  .addon-select {
+    width: 140px !important;
+  }
+
+  .signin-button {
+    height: 46px !important;
+    font-size: 14px !important;
+  }
+
+  .forgot-password-link {
+    font-size: 12px;
+  }
+
+  .form-actions {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signin-content {
+    padding: 0 10px;
+  }
+
+  .signin-header {
+    margin-bottom: 30px;
+  }
+
+  .signin-logo {
+    font-size: 26px;
+    letter-spacing: 0.5px;
+  }
+
+  .signin-card {
+    padding: 25px 20px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    font-size: 12px;
+  }
+
+  .input-with-addon,
+  .form-input-standard.ant-input-affix-wrapper {
+    height: 44px !important;
+  }
+
+  .addon-input,
+  .form-input-standard input {
+    height: 44px !important;
+    line-height: 44px !important;
+    font-size: 13px !important;
+    padding: 0 12px !important;
+  }
+
+  .addon-select {
+    width: 120px !important;
+  }
+
+  .addon-select .ant-select-selection-item {
+    line-height: 44px !important;
+    font-size: 11px !important;
+  }
+
+  .signin-button {
+    height: 44px !important;
+    font-size: 13px !important;
+  }
+
+  .forgot-password-link {
+    font-size: 11px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .forgot-password-link {
+    width: 100%;
+    text-align: center;
+  }
+}

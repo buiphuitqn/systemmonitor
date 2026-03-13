@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import HeaderBar from "../HeaderBar";
 import ContentComponent from "../../Router/Content";
 import SiderBar from "../SiderBar";
-import './style.css';
+
 import Context from "Data/Context";
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
 import { useDispatch, useSelector } from "react-redux";

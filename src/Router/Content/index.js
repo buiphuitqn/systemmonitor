@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Table, Card, Modal, Tag, Button, Typography } from "antd";
 import { HomeTwoTone, ApartmentOutlined, DownOutlined, RightOutlined, DatabaseOutlined, UpOutlined, DashboardOutlined } from "@ant-design/icons";
 import ServerCard from '../../Components/ServerCard';
-import ServerDetail from '../../Components/ServerDetail';
 import Context from "Data/Context";
 import { fetchStart as fetchStartApi } from '../../util/CallAPI';
 import { fetchStart } from '../../appRedux/features/common/commonSlice';
@@ -122,7 +121,6 @@ const RenderDonViTree = ({ nodes, level = 0 }) => {
 };
 
 const ContentComponent = () => {
-    const { openModal, setOpenModal, serverInfo } = React.useContext(Context);
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const [logData, setLogData] = useState([]);
@@ -237,29 +235,6 @@ const ContentComponent = () => {
                     className="log-table"
                 />}
             </div>
-            <Modal
-                footer={null}
-                title={<div className="dashboard-header">
-                    <Title level={3} className="dashboard-title">
-                        <DashboardOutlined /> {t('content.overview')}
-                    </Title>
-                    <Text type="secondary">{t('content.monitor_desc')}</Text>
-                </div>}
-                style={{ top: 20 }}
-                width={{
-                    xs: '95%',
-                    sm: '95%',
-                    md: '95%',
-                    lg: '95%',
-                    xl: '95%',
-                    xxl: '95%',
-                }}
-                open={openModal}
-                onCancel={() => setOpenModal(false)}
-                enforceFocus={false}
-            >
-                <ServerDetail />
-            </Modal>
         </div>
     );
 }
