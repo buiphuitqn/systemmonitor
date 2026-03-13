@@ -1,8 +1,8 @@
 {
-  "name": "quanlyxe",
+  "name": "quanly_hethong",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",
